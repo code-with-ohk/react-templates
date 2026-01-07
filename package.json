@@ -11,7 +11,8 @@
 	"private": false,
 	"publishConfig": {
 		"access": "public",
-		"provenance": true
+		"provenance": true,
+		"registry": "https://registry.npmjs.org/"
 	},
 	"bin": {
 		"crt": "index.js"
