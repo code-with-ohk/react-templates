@@ -15,5 +15,9 @@ jobs:
             - uses: actions/setup-node@v4
               with:
                   node-version: "20.x"
+                  registry-url: "https://registry.npmjs.org"
             - run: npm ci
+            # setup-node adds an empty auth token if NODE_AUTH_TOKEN is missing.
+            # We remove it to allow OIDC publishing (which provides its own auth).
+            - run: sed -i '/_authToken/d' .npmrc
             - run: npm publish --provenance --access public
