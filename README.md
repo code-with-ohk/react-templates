@@ -4,26 +4,19 @@ A collection of minimal and easy-to-use templates to kickstart your next React p
 
 ## Usage
 
-To create a new project, run the following command to start the interactive prompt:
+To create a new project, simply run the following command. You will be asked for the project name and template interactively.
 
 ```bash
-npx @ohk/react-template <project-name>
+npx @ohk/react-template
 ```
 
-### Direct Usage
+### Direct Usage (Optional)
 
-**JavaScript Templates:**
-
-```bash
-npx @ohk/react-template <project-name> --js vanilla
-```
-
-**TypeScript Templates:**
+You can also specify the project name and template directly via arguments:
 
 ```bash
-npx @ohk/react-template <project-name> --ts vanilla
-npx @ohk/react-template <project-name> --ts tw
-npx @ohk/react-template <project-name> --ts tw-shadcn
+# Example: Create a project named "my-app" using the TypeScript + Tailwind + Shadcn template
+npx @ohk/react-template my-app --ts tw-shadcn
 ```
 
 ## Available Templates
