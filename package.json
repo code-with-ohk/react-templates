@@ -11,8 +11,7 @@
 	"private": false,
 	"publishConfig": {
 		"access": "public",
-		"provenance": true,
-		"registry": "https://registry.npmjs.org"
+		"provenance": true
 	},
 	"bin": {
 		"crt": "index.js"
@@ -33,6 +32,6 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/code-with-ohk/react-templates.git"
+		"url": "https://github.com/code-with-ohk/react-templates.git"
 	}
 }
