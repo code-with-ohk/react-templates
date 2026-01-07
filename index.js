@@ -5,49 +5,34 @@ import path from "path";
 import inquirer from "inquirer";
 import chalk from "chalk";
 import degit from "degit";
+import { spawn } from "child_process";
+import { fileURLToPath } from "url";
+import {
+	CATEGORIES,
+	TEMPLATE_NAMES,
+	AVAILABLE_TEMPLATES,
+} from "./templates.js";
 
 const GITHUB_REPO = "code-with-ohk/react-templates";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const TEMPLATE_NAMES = {
-	vanilla: "Vanilla",
-	tw: "Tailwind CSS",
-	"tw-shadcn": "Tailwind CSS + Shadcn UI",
-};
-
-// The folders we care about
-const getTemplatesFromDir = (dir) => {
-	const templateDir = path.join(__dirname, dir);
-	if (!fs.existsSync(templateDir)) {
-		return [];
-	}
-	return fs
-		.readdirSync(templateDir)
-		.filter((file) =>
-			fs.statSync(path.join(templateDir, file)).isDirectory()
-		);
-};
-
 // Available categories/subfolders
-const jsTemplates = getTemplatesFromDir("js");
-const tsTemplates = getTemplatesFromDir("ts");
+const templates = AVAILABLE_TEMPLATES;
 
 async function run() {
-	console.log(chalk.blue("Creating a new React app..."));
+	console.log(chalk.bold.cyan("\n✨ Create React Template\n"));
 
 	const args = process.argv.slice(2);
 	let projectName = null;
 	let chosenTemplate = null;
 
 	const findFlag = (flag) => args.findIndex((arg) => arg === flag);
-	const jsFlagIndex = findFlag("--js");
-	const tsFlagIndex = findFlag("--ts");
 
-	const handleFlag = (flagIndex, category) => {
+	const handleFlag = (flagIndex, categoryPath) => {
 		if (flagIndex !== -1) {
 			if (args[flagIndex + 1] && !args[flagIndex + 1].startsWith("--")) {
 				const templateName = args[flagIndex + 1];
-				chosenTemplate = path.posix.join(category, templateName);
+				chosenTemplate = path.posix.join(categoryPath, templateName);
 				projectName = args.filter(
 					(_, i) => i !== flagIndex && i !== flagIndex + 1
 				)[0];
@@ -59,7 +44,16 @@ async function run() {
 		return false;
 	};
 
-	if (!handleFlag(jsFlagIndex, "js") && !handleFlag(tsFlagIndex, "ts")) {
+	let flagHandled = false;
+	for (const cat of CATEGORIES) {
+		const flagIndex = findFlag(cat.flag);
+		if (handleFlag(flagIndex, cat.path)) {
+			flagHandled = true;
+			break;
+		}
+	}
+
+	if (!flagHandled) {
 		if (args.length > 0 && !args[0].startsWith("--")) {
 			projectName = args[0];
 		}
@@ -95,20 +89,15 @@ async function run() {
 				type: "list",
 				name: "category",
 				message: "Select a variant:",
-				choices: [
-					{ name: chalk.yellow("JavaScript"), value: "js" },
-					{ name: chalk.blue("TypeScript"), value: "ts" },
-				],
+				choices: CATEGORIES.map((cat) => ({
+					name: cat.name,
+					value: cat.value,
+				})),
 				loop: false,
 			},
 		]);
 
-		let templateChoices;
-		if (category === "js") {
-			templateChoices = jsTemplates;
-		} else {
-			templateChoices = tsTemplates;
-		}
+		const templateChoices = templates[category];
 
 		const { selectedTemplate } = await inquirer.prompt([
 			{
@@ -122,17 +111,15 @@ async function run() {
 				loop: false,
 			},
 		]);
-		chosenTemplate = path.posix.join(category, selectedTemplate);
+		chosenTemplate = path.posix.join(
+			CATEGORIES.find((c) => c.value === category).path,
+			selectedTemplate
+		);
 	}
 
 	const templateSource = `${GITHUB_REPO}/${chosenTemplate}`;
 
-	console.log(`\nCreating a new React app in ${chalk.green(targetDir)}.`);
-	console.log(
-		`Using template: ${chalk.cyan(chosenTemplate)} from ${chalk.cyan(
-			GITHUB_REPO
-		)}\n`
-	);
+	console.log(`\nScaffolding project in ${chalk.cyan(targetDir)}...`);
 
 	try {
 		const emitter = degit(templateSource, {
@@ -146,20 +133,36 @@ async function run() {
 		process.exit(1);
 	}
 
-	console.log(chalk.green("Success! Created project at " + projectName));
-	console.log("Inside that directory, you can run several commands:");
-	console.log();
-	console.log(chalk.cyan("  npm install"));
-	console.log("    Installs dependencies.");
-	console.log();
-	console.log(chalk.cyan("  npm run dev"));
-	console.log("    Starts the development server.");
-	console.log();
-	console.log("To get started, run the following commands:");
-	console.log();
-	console.log(chalk.cyan("  cd"), projectName);
-	console.log(`  ${chalk.cyan("npm install")}`);
-	console.log(`  ${chalk.cyan("code .")}`);
+	console.log(chalk.green("\nDone."));
+
+	const { install } = await inquirer.prompt([
+		{
+			type: "confirm",
+			name: "install",
+			message: "Install dependencies now?",
+			default: true,
+		},
+	]);
+
+	if (install) {
+		console.log(chalk.gray("\nInstalling dependencies..."));
+		await new Promise((resolve, reject) => {
+			const child = spawn("npm", ["install"], {
+				cwd: targetDir,
+				stdio: "inherit",
+				shell: true,
+			});
+			child.on("close", (code) => {
+				if (code === 0) resolve();
+				else reject(new Error("npm install failed"));
+			});
+		});
+	}
+
+	console.log(chalk.green("\nYou're all set!"));
+	console.log(`\n  cd ${projectName}`);
+	if (!install) console.log("  npm install");
+	console.log("  npm run dev");
 	console.log();
 	process.exit(0);
 }
