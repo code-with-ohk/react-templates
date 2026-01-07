@@ -14,7 +14,7 @@
 		"provenance": true
 	},
 	"bin": {
-		"crt": "./index.js"
+		"crt": "index.js"
 	},
 	"scripts": {
 		"start": "node ./index.js"
@@ -32,6 +32,6 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/code-with-ohk/react-templates"
+		"url": "git+https://github.com/code-with-ohk/react-templates.git"
 	}
 }
