@@ -7,9 +7,30 @@ import chalk from "chalk";
 import degit from "degit";
 
 const GITHUB_REPO = "code-with-ohk/react-templates";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const tsTemplates = ["vanilla", "redux"];
-const extendedTemplates = ["full", "redux"];
+const TEMPLATE_NAMES = {
+	vanilla: "Vanilla",
+	tw: "Tailwind CSS",
+	"tw-shadcn": "Tailwind CSS + Shadcn UI",
+};
+
+// The folders we care about
+const getTemplatesFromDir = (dir) => {
+	const templateDir = path.join(__dirname, dir);
+	if (!fs.existsSync(templateDir)) {
+		return [];
+	}
+	return fs
+		.readdirSync(templateDir)
+		.filter((file) =>
+			fs.statSync(path.join(templateDir, file)).isDirectory()
+		);
+};
+
+// Available categories/subfolders
+const jsTemplates = getTemplatesFromDir("js");
+const tsTemplates = getTemplatesFromDir("ts");
 
 async function run() {
 	console.log(chalk.blue("Creating a new React app..."));
@@ -18,71 +39,47 @@ async function run() {
 	let projectName = null;
 	let chosenTemplate = null;
 
-	// --- Flag Handling ---
 	const findFlag = (flag) => args.findIndex((arg) => arg === flag);
-	const defaultFlagIndex = findFlag("--default");
+	const jsFlagIndex = findFlag("--js");
 	const tsFlagIndex = findFlag("--ts");
-	const extendedFlagIndex = findFlag("--extended");
 
-	if (defaultFlagIndex !== -1) {
-		chosenTemplate = "vanilla";
-		projectName = args.filter((arg) => !arg.startsWith("--"))[0];
-	} else {
-		const handleFlag = (flagIndex, category) => {
-			if (flagIndex !== -1 && args[flagIndex + 1]) {
+	const handleFlag = (flagIndex, category) => {
+		if (flagIndex !== -1) {
+			if (args[flagIndex + 1] && !args[flagIndex + 1].startsWith("--")) {
 				const templateName = args[flagIndex + 1];
 				chosenTemplate = path.posix.join(category, templateName);
 				projectName = args.filter(
 					(_, i) => i !== flagIndex && i !== flagIndex + 1
 				)[0];
 				return true;
+			} else {
+				projectName = args.filter((_, i) => i !== flagIndex)[0];
 			}
-			return false;
-		};
+		}
+		return false;
+	};
 
-		if (
-			!handleFlag(tsFlagIndex, "ts") &&
-			!handleFlag(extendedFlagIndex, "extended")
-		) {
-			if (args.length > 0 && !args[0].startsWith("--")) {
-				projectName = args[0];
-			}
+	if (!handleFlag(jsFlagIndex, "js") && !handleFlag(tsFlagIndex, "ts")) {
+		if (args.length > 0 && !args[0].startsWith("--")) {
+			projectName = args[0];
 		}
 	}
 
-	// --- Project Name and Help ---
+	// --- Project Name Check ---
 	if (!projectName) {
-		console.error(chalk.red("Please specify the project directory:"));
-		console.log(
-			`  ${chalk.cyan("npx @ohk/react-template")} ${chalk.green(
-				"<project-directory>"
-			)}`
-		);
-		console.log();
-		console.log("Options:");
-		console.log(
-			`  ${chalk.cyan(
-				"--default"
-			)}              Use the default vanilla template.`
-		);
-		console.log(
-			`  ${chalk.cyan(
-				"--ts <template>"
-			)}         Use a TypeScript template.`
-		);
-		console.log(
-			`  ${chalk.cyan(
-				"--extended <template>"
-			)}  Use an extended template with more features.`
-		);
-		console.log();
-		console.log("For example:");
-		console.log(
-			`  ${chalk.cyan("npx @ohk/react-template")} ${chalk.green(
-				"my-app"
-			)} --ts vanilla`
-		);
-		process.exit(1);
+		const { name } = await inquirer.prompt([
+			{
+				type: "input",
+				name: "name",
+				message: "Project name:",
+				default: "my-project",
+				validate: (input) => {
+					if (/^([A-Za-z0-9\-\_\.]+)$/.test(input)) return true;
+					return "Project name may only include letters, numbers, underscores, hashes and dots.";
+				},
+			},
+		]);
+		projectName = name;
 	}
 
 	const targetDir = path.resolve(process.cwd(), projectName);
@@ -93,49 +90,39 @@ async function run() {
 
 	// --- Interactive Mode ---
 	if (!chosenTemplate) {
-		const { useDefault } = await inquirer.prompt([
+		const { category } = await inquirer.prompt([
 			{
-				type: "confirm",
-				name: "useDefault",
-				message: "Would you like to use the default vanilla template?",
-				default: true,
+				type: "list",
+				name: "category",
+				message: "Select a variant:",
+				choices: [
+					{ name: chalk.yellow("JavaScript"), value: "js" },
+					{ name: chalk.blue("TypeScript"), value: "ts" },
+				],
+				loop: false,
 			},
 		]);
 
-		if (useDefault) {
-			chosenTemplate = "vanilla";
+		let templateChoices;
+		if (category === "js") {
+			templateChoices = jsTemplates;
 		} else {
-			const { templateCategory } = await inquirer.prompt([
-				{
-					type: "list",
-					name: "templateCategory",
-					message: "Which type of template would you like?",
-					choices: ["ts", "extended"],
-					loop: false,
-				},
-			]);
-
-			let templateChoices;
-			if (templateCategory === "ts") {
-				templateChoices = tsTemplates;
-			} else {
-				templateChoices = extendedTemplates;
-			}
-
-			const { selectedTemplate } = await inquirer.prompt([
-				{
-					type: "list",
-					name: "selectedTemplate",
-					message: "Which template would you like to use?",
-					choices: templateChoices,
-					loop: false,
-				},
-			]);
-			chosenTemplate = path.posix.join(
-				templateCategory,
-				selectedTemplate
-			);
+			templateChoices = tsTemplates;
 		}
+
+		const { selectedTemplate } = await inquirer.prompt([
+			{
+				type: "list",
+				name: "selectedTemplate",
+				message: "Select a template:",
+				choices: templateChoices.map((t) => ({
+					name: TEMPLATE_NAMES[t] || t,
+					value: t,
+				})),
+				loop: false,
+			},
+		]);
+		chosenTemplate = path.posix.join(category, selectedTemplate);
 	}
 
 	const templateSource = `${GITHUB_REPO}/${chosenTemplate}`;

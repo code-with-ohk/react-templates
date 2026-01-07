@@ -14,14 +14,14 @@ updates:
               patterns:
                   - "*"
     - package-ecosystem: "npm"
-      directory: "/vanilla"
+      directory: "/js/vanilla"
       schedule:
           interval: "weekly"
       groups:
           npm-dependencies:
               patterns:
                   - "*"
-    # ts templates
+    # TS Templates
     - package-ecosystem: "npm"
       directory: "/ts/vanilla"
       schedule:
@@ -31,16 +31,7 @@ updates:
               patterns:
                   - "*"
     - package-ecosystem: "npm"
-      directory: "/ts/redux"
-      schedule:
-          interval: "weekly"
-      groups:
-          npm-dependencies:
-              patterns:
-                  - "*"
-    # extended templates
-    - package-ecosystem: "npm"
-      directory: "/extended/full"
+      directory: "/ts/tw"
       schedule:
           interval: "weekly"
       groups:
@@ -48,7 +39,7 @@ updates:
               patterns:
                   - "*"
     - package-ecosystem: "npm"
-      directory: "/extended/redux"
+      directory: "/ts/tw-shadcn"
       schedule:
           interval: "weekly"
       groups:

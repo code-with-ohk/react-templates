@@ -1,6 +1,5 @@
-vanilla/
+js/
 ts/
-extended/
 
 # Ignore github specific files
 .github/

@@ -4,53 +4,39 @@ A collection of minimal and easy-to-use templates to kickstart your next React p
 
 ## Usage
 
-To create a new project, run the following command in your terminal:
+To create a new project, run the following command to start the interactive prompt:
 
 ```bash
 npx @ohk/react-template <project-name>
 ```
 
-This will launch an interactive prompt, asking if you'd like to use the default vanilla template. If you choose no, you can select from more advanced TypeScript and extended templates.
-
 ### Direct Usage
 
-If you already know which template you want, you can specify it directly with a flag to skip the interactive prompts.
-
-**For the default vanilla template:**
+**JavaScript Templates:**
 
 ```bash
-npx @ohk/react-template <project-name> --default
+npx @ohk/react-template <project-name> --js vanilla
 ```
 
-**For TypeScript templates:**
+**TypeScript Templates:**
 
 ```bash
-npx @ohk/react-template <project-name> --ts <template-name>
-```
-
-**For extended templates:**
-
-```bash
-npx @ohk/react-template <project-name> --extended <template-name>
+npx @ohk/react-template <project-name> --ts vanilla
+npx @ohk/react-template <project-name> --ts tw
+npx @ohk/react-template <project-name> --ts tw-shadcn
 ```
 
 ## Available Templates
 
-### Vanilla
+### JavaScript
 
-The default template, providing a fast Vite setup with JavaScript.
-
--   `vanilla`
+-   `vanilla`: Basic Vite + React setup.
 
 ### TypeScript
 
--   `vanilla`: Vite with TypeScript configured.
--   `redux`: Create React App with TypeScript and Redux.
-
-### Extended
-
--   `full`: Create React App with JavaScript, Redux, and React Router.
--   `redux`: Create React App with JavaScript and Redux.
+-   `vanilla`: Basic Vite + React + TypeScript setup.
+-   `tw`: TypeScript setup with Tailwind CSS configured.
+-   `tw-shadcn`: TypeScript setup with Tailwind CSS and Shadcn UI (inc. `utils` and basic components).
 
 ## Contributing
 
