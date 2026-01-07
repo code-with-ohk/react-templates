@@ -122,14 +122,26 @@ async function run() {
 	console.log(`\nScaffolding project in ${chalk.cyan(targetDir)}...`);
 
 	try {
-		const emitter = degit(templateSource, {
-			cache: false,
-			force: true,
-		});
-
-		await emitter.clone(targetDir);
+		// If --local flag is passed, copy from local filesystem (for development)
+		// Note: This only works if you are running the script from within the source repo
+		// because the templates (js/, ts/) are excluded from the npm package.
+		if (args.includes("--local")) {
+			const localTemplatePath = path.join(__dirname, chosenTemplate);
+			if (!fs.existsSync(localTemplatePath)) {
+				throw new Error(
+					`Local template not found at ${localTemplatePath}`
+				);
+			}
+			await fs.copy(localTemplatePath, targetDir);
+		} else {
+			const emitter = degit(templateSource, {
+				cache: false,
+				force: true,
+			});
+			await emitter.clone(targetDir);
+		}
 	} catch (error) {
-		console.error(chalk.red(`Error cloning template: ${error.message}`));
+		console.error(chalk.red(`Error scaffolding: ${error.message}`));
 		process.exit(1);
 	}
 
