@@ -3,3 +3,4 @@ ts/
 
 # Ignore github specific files
 .github/
+local/

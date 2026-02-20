@@ -19,9 +19,10 @@ export const TEMPLATE_NAMES = {
 	vanilla: "Vanilla",
 	tw: "Tailwind CSS",
 	"tw-shadcn": "Tailwind CSS + Shadcn UI",
+	tsrf: "TanStack Router + Form",
 };
 
 export const AVAILABLE_TEMPLATES = {
 	js: ["vanilla"],
-	ts: ["vanilla", "tw", "tw-shadcn"],
+	ts: ["vanilla", "tw", "tw-shadcn", "tsrf"],
 };
