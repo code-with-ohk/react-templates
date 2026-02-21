@@ -1,95 +1,36 @@
 #!/usr/bin/env node
 
-// Suppress Node.js 25+ warning about localStorage (triggered by degit/debug)
-const originalEmit = process.emit;
-process.emit = function (name, data, ...args) {
-	if (
-		name === "warning" &&
-		typeof data === "object" &&
-		data.name === "Warning" &&
-		data.message.includes("--localstorage-file")
-	) {
-		return false;
-	}
-	return originalEmit.apply(process, [name, data, ...args]);
-};
-
 import fs from "fs-extra";
 import path from "path";
 import chalk from "chalk";
 import { spawn } from "child_process";
 import { fileURLToPath } from "url";
+import lodashMerge from "lodash.merge";
 import {
 	intro,
 	outro,
 	text,
 	select,
+	multiselect,
 	confirm,
 	spinner,
 	isCancel,
 	cancel,
 } from "@clack/prompts";
-import {
-	CATEGORIES,
-	TEMPLATE_NAMES,
-	AVAILABLE_TEMPLATES,
-} from "./templates.js";
 
-const degit = (await import("degit")).default;
-
-const GITHUB_REPO = "code-with-ohk/react-templates";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// Available categories/subfolders
-const templates = AVAILABLE_TEMPLATES;
+const TEMPLATES_DIR = path.join(__dirname, "templates");
 
 async function run() {
 	intro(
 		chalk.bgCyan(chalk.black(" create-react-template ")) +
-			chalk.dim(" (Ctrl+C to cancel)")
+			chalk.dim(" (Ctrl+C to cancel)"),
 	);
 
+	// 1. Get Project Name
 	const args = process.argv.slice(2);
-	let projectName = null;
-	let chosenTemplate = null;
-	let preselectedCategory = null;
+	let projectName = args[0] && !args[0].startsWith("--") ? args[0] : null;
 
-	const findFlag = (flag) => args.findIndex((arg) => arg === flag);
-
-	const handleFlag = (flagIndex, categoryPath, categoryValue) => {
-		if (flagIndex !== -1) {
-			if (args[flagIndex + 1] && !args[flagIndex + 1].startsWith("--")) {
-				const templateName = args[flagIndex + 1];
-				chosenTemplate = path.posix.join(categoryPath, templateName);
-				projectName = args.filter(
-					(_, i) => i !== flagIndex && i !== flagIndex + 1
-				)[0];
-				return true;
-			} else {
-				projectName = args.filter((_, i) => i !== flagIndex)[0];
-				preselectedCategory = categoryValue;
-				return true;
-			}
-		}
-		return false;
-	};
-
-	let flagHandled = false;
-	for (const cat of CATEGORIES) {
-		const flagIndex = findFlag(cat.flag);
-		if (handleFlag(flagIndex, cat.path, cat.value)) {
-			flagHandled = true;
-			break;
-		}
-	}
-
-	if (!flagHandled) {
-		if (args.length > 0 && !args[0].startsWith("--")) {
-			projectName = args[0];
-		}
-	}
-
-	// --- Project Name Check ---
 	if (!projectName) {
 		const name = await text({
 			message: "Project name",
@@ -114,71 +55,81 @@ async function run() {
 		process.exit(1);
 	}
 
-	// --- Interactive Mode ---
-	if (!chosenTemplate) {
-		let category = preselectedCategory;
+	// 2. Select Language (Base Template)
+	const language = await select({
+		message: "Select a language",
+		options: [{ label: chalk.blue("TypeScript"), value: "base-ts" }],
+	});
 
-		if (!category) {
-			const selectedCategory = await select({
-				message: "Select a language",
-				options: CATEGORIES.map((cat) => ({
-					label: cat.name,
-					value: cat.value,
-				})),
-			});
-
-			if (isCancel(selectedCategory)) {
-				cancel("Operation cancelled.");
-				process.exit(0);
-			}
-			category = selectedCategory;
-		}
-
-		const templateChoices = templates[category];
-
-		const selectedTemplate = await select({
-			message: "Select a template",
-			options: templateChoices.map((t) => ({
-				label: TEMPLATE_NAMES[t] || t,
-				value: t,
-			})),
-		});
-
-		if (isCancel(selectedTemplate)) {
-			cancel("Operation cancelled.");
-			process.exit(0);
-		}
-
-		chosenTemplate = path.posix.join(
-			CATEGORIES.find((c) => c.value === category).path,
-			selectedTemplate
-		);
+	if (isCancel(language)) {
+		cancel("Operation cancelled.");
+		process.exit(0);
 	}
 
-	const templateSource = `${GITHUB_REPO}/${chosenTemplate}`;
-	const s = spinner();
+	// 3. Select Add-ons
+	const addons = await multiselect({
+		message: "Select additional features",
+		options: [{ label: "Tailwind CSS", value: "tailwind" }],
+		required: false,
+	});
 
+	if (isCancel(addons)) {
+		cancel("Operation cancelled.");
+		process.exit(0);
+	}
+
+	const s = spinner();
 	s.start(`Scaffolding project in ${chalk.cyan(targetDir)}`);
 
 	try {
-		// If --local flag is passed, copy from local filesystem (for development)
-		// Note: This only works if you are running the script from within the source repo
-		// because the templates (js/, ts/) are excluded from the npm package.
-		if (args.includes("--local")) {
-			const localTemplatePath = path.join(__dirname, chosenTemplate);
-			if (!fs.existsSync(localTemplatePath)) {
-				throw new Error(
-					`Local template not found at ${localTemplatePath}`
+		// --- GENERATION LOGIC ---
+
+		// A. Copy Base Template
+		const baseTemplatePath = path.join(TEMPLATES_DIR, language);
+		if (!fs.existsSync(baseTemplatePath)) {
+			throw new Error(`Base template not found at ${baseTemplatePath}`);
+		}
+		await fs.copy(baseTemplatePath, targetDir);
+
+		// B. Apply Add-ons
+		for (const addon of addons) {
+			s.message(`Adding ${addon}...`);
+			const addonDir = path.join(TEMPLATES_DIR, "addons", addon);
+
+			if (fs.existsSync(addonDir)) {
+				// 1. Copy files (Overwrite, but EXCLUDE package.json)
+				await fs.copy(addonDir, targetDir, {
+					overwrite: true,
+					filter: (src) => path.basename(src) !== "package.json",
+				});
+
+				// 2. Merge package.json MANUALLY
+				const targetPkgPath = path.join(targetDir, "package.json");
+				const addonPkgPath = path.join(addonDir, "package.json");
+
+				if (
+					fs.existsSync(addonPkgPath) &&
+					fs.existsSync(targetPkgPath)
+				) {
+					const targetPkg = await fs.readJson(targetPkgPath);
+					const addonPkg = await fs.readJson(addonPkgPath);
+
+					// Merge dependencies
+					const mergedPkg = lodashMerge({}, targetPkg, addonPkg);
+
+					await fs.writeJson(targetPkgPath, mergedPkg, {
+						spaces: "\t",
+					});
+				}
+			} else {
+				console.warn(
+					chalk.yellow(
+						`\nWarning: Add-on "${addon}" not found locally.`,
+					),
 				);
 			}
-			await fs.copy(localTemplatePath, targetDir);
-		} else {
-			const emitter = degit(templateSource, {
-				cache: false,
-				force: true,
-			});
-			await emitter.clone(targetDir);
 		}
+
 		s.stop(`Scaffolding complete.`);
 	} catch (error) {
 		s.stop(`Scaffolding failed.`);
@@ -186,6 +137,7 @@ async function run() {
 		process.exit(1);
 	}
 
+	// 4. Install Dependencies
 	const shouldInstall = await confirm({
 		message: "Install dependencies now?",
 		initialValue: true,
@@ -201,7 +153,7 @@ async function run() {
 		await new Promise((resolve, reject) => {
 			const child = spawn("npm", ["install"], {
 				cwd: targetDir,
-				stdio: "ignore", // Suppress standard output for cleaner spinner
+				stdio: "ignore",
 				shell: true,
 			});
 			child.on("close", (code) => {
@@ -215,7 +167,7 @@ async function run() {
 	outro(`You're all set!`);
 
 	console.log(
-		`  ${chalk.gray("Run the following commands to get started:")}`
+		`  ${chalk.gray("Run the following commands to get started:")}`,
 	);
 	console.log(`\n    ${chalk.cyan("cd")} ${projectName}`);
 	if (!shouldInstall) console.log(`    ${chalk.cyan("npm install")}`);
