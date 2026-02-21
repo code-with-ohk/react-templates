@@ -69,7 +69,10 @@ async function run() {
 	// 3. Select Add-ons
 	const addons = await multiselect({
 		message: "Select additional features",
-		options: [{ label: "Tailwind CSS", value: "tailwind" }],
+		options: [
+			{ label: "Tailwind CSS", value: "tailwind" },
+			{ label: "Shadcn UI", value: "shadcn" },
+		],
 		required: false,
 	});
 
