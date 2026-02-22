@@ -57,10 +57,13 @@ export async function applyAddon(targetDir, addon) {
  */
 export async function installDependencies(targetDir) {
 	return new Promise((resolve, reject) => {
-		const child = spawn("npm", ["install"], {
+		const isWindows = process.platform === "win32";
+		const command = isWindows ? "npm.cmd" : "npm";
+
+		const child = spawn(command, ["install"], {
 			cwd: targetDir,
 			stdio: "ignore",
-			shell: true,
+			shell: false,
 		});
 		child.on("close", (code) => {
 			if (code === 0) resolve();

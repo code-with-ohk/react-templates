@@ -4,3 +4,4 @@ ts/
 # Ignore github specific files
 .github/
 local/
+.DS_Store
