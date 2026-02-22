@@ -2,9 +2,18 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
+<% if (addons.includes('react-router')) { %>
+import { BrowserRouter } from "react-router-dom";
+<% } %>
 
 createRoot(document.getElementById("root") as HTMLElement).render(
 	<StrictMode>
+		<% if (addons.includes('react-router')) { %>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+		<% } else { %>
 		<App />
+		<% } %>
 	</StrictMode>
 );

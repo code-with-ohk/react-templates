@@ -17,6 +17,7 @@ import {
 	applyAddon,
 	installDependencies,
 } from "./scaffold.js";
+import { processEjsTemplates } from "./template.js";
 import { ADDONS } from "./constants.js";
 
 export async function run() {
@@ -54,8 +55,9 @@ export async function run() {
 	}
 
 	// 2. Select Add-ons
-	const addons = await multiselect({
-		message: "Select additional features",
+	let addons = await multiselect({
+		message:
+			"Select additional features (Press <space> to select, <enter> to submit. Leave empty for none)",
 		options: ADDONS,
 		required: false,
 	});
@@ -63,6 +65,19 @@ export async function run() {
 	if (isCancel(addons)) {
 		cancel("Operation cancelled.");
 		process.exit(0);
+	}
+
+	// If user unselected everything, default to none
+	if (addons.length === 0) {
+		addons = ["none"];
+	}
+
+	// If Shadcn is selected but Tailwind is not, automatically add Tailwind
+	if (addons.includes("shadcn") && !addons.includes("tailwind")) {
+		addons.push("tailwind");
+		console.log(
+			chalk.blue("ℹ Auto-added Tailwind CSS (required by Shadcn UI)"),
+		);
 	}
 
 	const s = spinner();
@@ -76,9 +91,14 @@ export async function run() {
 
 		// B. Apply Add-ons
 		for (const addon of addons) {
+			if (addon === "none") continue;
 			s.message(`Adding ${addon}...`);
 			await applyAddon(targetDir, addon);
 		}
+
+		// C. Process EJS Templates
+		s.message(`Processing templates...`);
+		await processEjsTemplates(targetDir, { addons });
 
 		s.stop(`Scaffolding complete.`);
 	} catch (error) {

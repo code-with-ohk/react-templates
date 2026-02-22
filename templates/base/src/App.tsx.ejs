@@ -1,0 +1,68 @@
+<% if (addons.includes('react-router')) { %>
+import { Routes, Route, Link } from "react-router-dom";
+<% } %>
+<% if (addons.includes('shadcn')) { %>
+import { Button } from "@/components/ui/button";
+<% } %>
+
+function Home() {
+	return (
+		<div className="<%- addons.includes('tailwind') ? 'flex h-screen w-full flex-col items-center justify-center gap-4' : '' %>">
+			<h1 className="<%- addons.includes('tailwind') ? 'text-4xl font-bold tracking-tight' : '' %>">
+				Hello World
+			</h1>
+			<p className="<%- addons.includes('tailwind') ? 'text-muted-foreground' : '' %>">
+				Work Smart && Hard, !(Hard || Smart)
+			</p>
+			
+			<% if (addons.includes('shadcn')) { %>
+			<div className="flex gap-2">
+				<Button>Default</Button>
+				<Button variant="secondary">Secondary</Button>
+				<Button variant="outline">Outline</Button>
+				<Button variant="ghost">Ghost</Button>
+				<Button variant="destructive">Destructive</Button>
+			</div>
+			<% } %>
+
+			<% if (addons.includes('react-router')) { %>
+			<Link to="/about" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline mt-4' : '' %>">
+				Go to About Page
+			</Link>
+			<% } %>
+		</div>
+	);
+}
+
+<% if (addons.includes('react-router')) { %>
+function About() {
+	return (
+		<div className="<%- addons.includes('tailwind') ? 'flex h-screen w-full flex-col items-center justify-center gap-4' : '' %>">
+			<h1 className="<%- addons.includes('tailwind') ? 'text-4xl font-bold tracking-tight' : '' %>">
+				About Page
+			</h1>
+			<p className="<%- addons.includes('tailwind') ? 'text-muted-foreground' : '' %>">
+				This is the about page.
+			</p>
+			<Link to="/" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline mt-4' : '' %>">
+				Go back Home
+			</Link>
+		</div>
+	);
+}
+<% } %>
+
+function App() {
+	<% if (addons.includes('react-router')) { %>
+	return (
+		<Routes>
+			<Route path="/" element={<Home />} />
+			<Route path="/about" element={<About />} />
+		</Routes>
+	);
+	<% } else { %>
+	return <Home />;
+	<% } %>
+}
+
+export default App;

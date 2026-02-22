@@ -1,0 +1,25 @@
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+<% if (addons.includes('tailwind')) { %>
+import tailwindcss from "@tailwindcss/vite";
+<% } %>
+<% if (addons.includes('shadcn')) { %>
+import path from "path";
+<% } %>
+
+// https://vite.dev/config/
+export default defineConfig({
+	plugins: [
+		react(),
+		<% if (addons.includes('tailwind')) { %>
+		tailwindcss(),
+		<% } %>
+	],
+	<% if (addons.includes('shadcn')) { %>
+	resolve: {
+		alias: {
+			"@": path.resolve(__dirname, "./src"),
+		},
+	},
+	<% } %>
+});

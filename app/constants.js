@@ -10,4 +10,5 @@ export const TEMPLATES_DIR = path.resolve(__dirname, "../templates");
 export const ADDONS = [
 	{ label: "Tailwind CSS", value: "tailwind" },
 	{ label: "Shadcn UI", value: "shadcn" },
+	{ label: "React Router", value: "react-router" },
 ];
