@@ -1,4 +1,10 @@
 .github/
 local/
 docs/
+app/scripts/
 .DS_Store
+.eslintrc*
+.gitignore
+.prettierrc*
+tsconfig.json
+CURRENT-STATE.md
