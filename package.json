@@ -6,7 +6,7 @@
 		"react",
 		"template"
 	],
-	"main": "index.js",
+	"main": "app/index.js",
 	"type": "module",
 	"private": false,
 	"publishConfig": {
@@ -15,10 +15,10 @@
 		"registry": "https://registry.npmjs.org/"
 	},
 	"bin": {
-		"crt": "index.js"
+		"crt": "app/index.js"
 	},
 	"scripts": {
-		"start": "node ./index.js"
+		"start": "node ./app/index.js"
 	},
 	"dependencies": {
 		"@clack/prompts": "^1.0.1",

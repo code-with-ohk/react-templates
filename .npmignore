@@ -1,7 +1,4 @@
-js/
-ts/
-
-# Ignore github specific files
 .github/
 local/
+docs/
 .DS_Store

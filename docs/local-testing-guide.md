@@ -4,10 +4,10 @@ Test CLI locally before publishing to NPM.
 
 ## 1. Direct Node Execution
 
-Run entry script inside repo.
+Run entry script inside repo (/local).
 
 ```bash
-node index.js my-test-app
+node app/index.js my-test-app
 cd my-test-app
 npm install
 npm run dev
