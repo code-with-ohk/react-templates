@@ -1,5 +1,14 @@
 import { defineConfig } from "vite";
+<% if (addons.includes('react-router-framework')) { %>
+import { reactRouter } from "@react-router/dev/vite";
+<% } else { %>
 import react from "@vitejs/plugin-react";
+<% } %>
+<% if (addons.includes('tanstack-router')) { %>
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+<% } else if (addons.includes('react-router')) { %>
+import Pages from "vite-plugin-pages";
+<% } %>
 <% if (addons.includes('tailwind')) { %>
 import tailwindcss from "@tailwindcss/vite";
 <% } %>
@@ -10,7 +19,17 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
 	plugins: [
+		<% if (addons.includes('tanstack-router')) { %>
+		TanStackRouterVite(),
+		<% } %>
+		<% if (addons.includes('react-router-framework')) { %>
+		reactRouter(),
+		<% } else { %>
 		react(),
+		<% } %>
+		<% if (addons.includes('react-router')) { %>
+		Pages(),
+		<% } %>
 		<% if (addons.includes('tailwind')) { %>
 		tailwindcss(),
 		<% } %>

@@ -1,0 +1,16 @@
+{
+	"projectName": "<%= name %>",
+	"mode": "<%- addons.includes('tanstack-router') || addons.includes('react-router-framework') || addons.includes('react-router') ? 'file-router' : 'spa' %>",
+	"typescript": true,
+	"packageManager": "npm",
+	"includeExamples": true,
+	"tailwind": <%- addons.includes('tailwind') %>,
+	"addOnOptions": {},
+	"envVarValues": {},
+	"git": false,
+	"install": true,
+	"routerOnly": false,
+	"version": 1,
+	"framework": "react",
+	"chosenAddOns": ["eslint"]
+}

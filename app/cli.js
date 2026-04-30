@@ -3,6 +3,7 @@ import {
 	intro,
 	outro,
 	text,
+	select,
 	multiselect,
 	confirm,
 	spinner,
@@ -18,7 +19,7 @@ import {
 	installDependencies,
 } from "./scaffold.js";
 import { processEjsTemplates } from "./template.js";
-import { ADDONS } from "./constants.js";
+import { ADDONS, ROUTERS } from "./constants.js";
 
 export async function run() {
 	intro(
@@ -72,6 +73,23 @@ export async function run() {
 		addons = ["none"];
 	}
 
+	// 2.5 Select Router Family if routing was selected
+	if (addons.includes("router")) {
+		const selectedRouter = await select({
+			message: "Which router would you like to use?",
+			options: ROUTERS,
+		});
+
+		if (isCancel(selectedRouter)) {
+			cancel("Operation cancelled.");
+			process.exit(0);
+		}
+
+		// replace 'router' with the actual selected router family
+		addons = addons.filter((a) => a !== "router");
+		addons.push(selectedRouter);
+	}
+
 	// If Shadcn is selected but Tailwind is not, automatically add Tailwind
 	if (addons.includes("shadcn") && !addons.includes("tailwind")) {
 		addons.push("tailwind");
@@ -98,7 +116,15 @@ export async function run() {
 
 		// C. Process EJS Templates
 		s.message(`Processing templates...`);
-		await processEjsTemplates(targetDir, { addons });
+		await processEjsTemplates(targetDir, { addons, name: projectName });
+
+		// D. Update package.json name
+		const pkgPath = path.join(targetDir, "package.json");
+		if (fs.existsSync(pkgPath)) {
+			const pkg = await fs.readJson(pkgPath);
+			pkg.name = projectName;
+			await fs.writeJson(pkgPath, pkg, { spaces: "\t" });
+		}
 
 		s.stop(`Scaffolding complete.`);
 	} catch (error) {

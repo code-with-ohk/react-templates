@@ -1,25 +1,11 @@
-<% if (!addons.includes('react-router-framework') && !addons.includes('tanstack-router')) { %>
-<% if (addons.includes('react-router')) { %>
-import { Suspense } from "react";
-import { useRoutes } from "react-router-dom";
-import routes from "~react-pages";
-
-function App() {
-	return (
-		<Suspense fallback={<div>Loading...</div>}>
-			{useRoutes(routes)}
-		</Suspense>
-	);
-}
-export default App;
-<% } else { %>
 <% if (addons.includes('shadcn')) { %>
 import { Button } from "@/components/ui/button";
 <% } %>
+import { Link } from "react-router-dom";
 
-function Home() {
+export default function Home() {
 	return (
-		<div className="<%- addons.includes('tailwind') ? 'flex h-screen w-full flex-col items-center justify-center gap-4' : '' %>">
+		<div className="<%- addons.includes('tailwind') ? 'flex flex-col items-center justify-center gap-4 py-8' : '' %>">
 			<h1 className="<%- addons.includes('tailwind') ? 'text-4xl font-bold tracking-tight' : '' %>">
 				Hello World
 			</h1>
@@ -36,13 +22,10 @@ function Home() {
 				<Button variant="destructive">Destructive</Button>
 			</div>
 			<% } %>
+
+			<Link to="/about" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline mt-4' : '' %>">
+				Go to About Page
+			</Link>
 		</div>
 	);
 }
-
-function App() {
-	return <Home />;
-}
-export default App;
-<% } %>
-<% } %>

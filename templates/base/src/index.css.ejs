@@ -1,3 +1,4 @@
+<% if (!addons.includes('react-router-framework')) { %>
 <% if (addons.includes('tailwind') || addons.includes('shadcn')) { %>
 @import "tailwindcss";
 <% } %>
@@ -142,6 +143,7 @@
 		@apply bg-background text-foreground;
 	}
 }
+<% } %>
 <% } else if (!addons.includes('tailwind')) { %>
 :root {
 	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;

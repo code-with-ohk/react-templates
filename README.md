@@ -15,22 +15,18 @@ npx @ohk/react-template
 You can also specify the project name and template directly via arguments:
 
 ```bash
-# Example: Create a project named "my-app" using the TypeScript + Tailwind + Shadcn template
-npx @ohk/react-template my-app --ts tw-shadcn
+# Example: Create a project named "my-app"
+npx @ohk/react-template my-app
 ```
 
-## Available Templates
+## Architecture
 
-### JavaScript
+This tool uses a **composition-based architecture** rather than shipping multiple static templates.
 
--   `vanilla`: Basic Vite + React setup.
-
-### TypeScript
-
--   `vanilla`: Basic Vite + React + TypeScript setup.
--   `tw`: TypeScript setup with Tailwind CSS configured.
--   `tw-shadcn`: TypeScript setup with Tailwind CSS and Shadcn UI (inc. `utils` and basic components).
-
-## Contributing
+- **Base Templating:** A foundational setup featuring Vite + React 19 + TypeScript.
+- **Add-on Ecosystem:** Selectable additions that inject the exact files and dependencies needed for:
+    - Tailwind CSS
+    - Shadcn UI
+    - Routing (React Router or TanStack Router)
 
 Contributions are welcome. Please feel free to open a pull request or an issue if you have suggestions or find a bug. The templates are regularly updated to use the latest stable package versions.

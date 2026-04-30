@@ -1,31 +1,34 @@
 {
+	"include": ["**/*.ts", "**/*.tsx", "eslint.config.js", "prettier.config.js", "vite.config.ts"],
 	"compilerOptions": {
 		"target": "ES2022",
-		"useDefineForClassFields": true,
-		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"jsx": "react-jsx",
 		"module": "ESNext",
-		"types": ["vite/client", "node"],
-		"skipLibCheck": true,
+		"paths": {
+			"#/*": ["./src/*"]<% if (addons.includes('shadcn')) { %>,
+			"@/*": ["./src/*"]
+			<% } %>
+		},
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"types": [
+			"vite/client", 
+			"node"<% if (addons.includes('react-router')) { %>,
+			"vite-plugin-pages/client"
+			<% } %>
+		],
 
 		/* Bundler mode */
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,
-		"resolveJsonModule": true,
-		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
 		"noEmit": true,
-		"jsx": "react-jsx",
 
 		/* Linting */
+		"skipLibCheck": true,
 		"strict": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"erasableSyntaxOnly": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUncheckedSideEffectImports": true<% if (addons.includes('shadcn')) { %>,
-
-		/* Paths */
-		"paths": { "@/*": ["./src/*"] }
-		<% } %>
-	},
-	"include": ["src", "vite.config.ts"]
+		"noUncheckedSideEffectImports": true
+	}
 }

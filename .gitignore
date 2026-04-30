@@ -2,3 +2,7 @@
 /local
 
 .DS_Store
+
+.github/copilot-instructions.md
+
+CURRENT-STATE.md

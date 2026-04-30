@@ -9,5 +9,14 @@ export const TEMPLATES_DIR = path.resolve(__dirname, "../templates");
 export const ADDONS = [
 	{ label: "Tailwind CSS", value: "tailwind" },
 	{ label: "Shadcn UI", value: "shadcn" },
-	{ label: "React Router", value: "react-router" },
+	{ label: "Routing", value: "router" },
+];
+
+export const ROUTERS = [
+	{
+		label: "React Router (Framework / Remix-style)",
+		value: "react-router-framework",
+	},
+	{ label: "React Router (Lightweight SPA)", value: "react-router" },
+	{ label: "TanStack Router (File-based SPA)", value: "tanstack-router" },
 ];

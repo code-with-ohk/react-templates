@@ -21,8 +21,12 @@ export async function processEjsTemplates(dir, data) {
 			const rendered = ejs.render(content, data);
 
 			const newPath = fullPath.replace(/\.ejs$/, "");
-			await fs.writeFile(newPath, rendered);
-			await fs.remove(fullPath);
+			if (rendered.trim() === "") {
+				await fs.remove(fullPath);
+			} else {
+				await fs.writeFile(newPath, rendered);
+				await fs.remove(fullPath);
+			}
 		}
 	}
 }
