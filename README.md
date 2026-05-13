@@ -28,5 +28,5 @@ This tool uses a **composition-based architecture** rather than shipping multipl
     - Tailwind CSS
     - Shadcn UI
     - TanStack Query
-    - Routing (React Router or TanStack Router)
+    - Routing (React Router, TanStack Start, or TanStack Router)
 - **Dynamic EJS Processing:** All templates are EJS-based, allowing for dynamic file generation based on user choices.

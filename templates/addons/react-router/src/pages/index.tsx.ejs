@@ -2,8 +2,21 @@
 import { Button } from "@/components/ui/button";
 <% } %>
 import { Link } from "react-router-dom";
+<% if (addons.includes('tanstack-query')) { %>
+import { useSuspenseQuery } from "@tanstack/react-query";
+<% } %>
 
 export default function Home() {
+	<% if (addons.includes('tanstack-query')) { %>
+	const { data } = useSuspenseQuery({
+		queryKey: ["hello"],
+		queryFn: async () => {
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+			return "TanStack Query is working!";
+		},
+	});
+	<% } %>
+
 	return (
 		<div className="<%- addons.includes('tailwind') ? 'flex flex-col items-center justify-center gap-4 py-8' : '' %>">
 			<h1 className="<%- addons.includes('tailwind') ? 'text-4xl font-bold tracking-tight' : '' %>">
@@ -13,8 +26,14 @@ export default function Home() {
 				Work Smart && Hard, !(Hard || Smart)
 			</p>
 			
+			<% if (addons.includes('tanstack-query')) { %>
+			<div className="<%- addons.includes('tailwind') ? 'mt-6' : '' %>">
+				<p>Query Result: {data}</p>
+			</div>
+			<% } %>
+
 			<% if (addons.includes('shadcn')) { %>
-			<div className="flex gap-2">
+			<div className="<%- addons.includes('tailwind') ? 'flex gap-2 mt-6' : '' %>">
 				<Button>Default</Button>
 				<Button variant="secondary">Secondary</Button>
 				<Button variant="outline">Outline</Button>
@@ -23,12 +42,8 @@ export default function Home() {
 			</div>
 			<% } %>
 
-			<Link to="/about" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline mt-4' : '' %>">
+			<Link to="/about" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline mt-6' : '' %>">
 				Go to About Page
-			</Link>
-
-			<Link to="/dashboard" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>">
-				Go to Dashboard Example
 			</Link>
 		</div>
 	);

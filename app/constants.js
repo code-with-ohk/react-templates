@@ -19,5 +19,6 @@ export const ROUTERS = [
 		value: "react-router-framework",
 	},
 	{ label: "React Router (Lightweight SPA)", value: "react-router" },
+	{ label: "TanStack Start (Latest)", value: "tanstack-start" },
 	{ label: "TanStack Router (File-based SPA)", value: "tanstack-router" },
 ];

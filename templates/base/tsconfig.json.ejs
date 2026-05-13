@@ -5,9 +5,10 @@
 		"jsx": "react-jsx",
 		"module": "ESNext",
 		"paths": {
-			"#/*": ["./src/*"]<% if (addons.includes('shadcn')) { %>,
+			<% if (addons.includes('tanstack-start')) { %>"#/*": ["./src/*"],
+			"@/*": ["./src/*"]<% } else { %>"#/*": ["./src/*"]<% if (addons.includes('shadcn')) { %>,
 			"@/*": ["./src/*"]
-			<% } %>
+			<% } %><% } %>
 		},
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"types": [

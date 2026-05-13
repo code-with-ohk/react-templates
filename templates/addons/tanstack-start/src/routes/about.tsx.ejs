@@ -1,0 +1,19 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/about")({
+  component: About,
+});
+
+function About() {
+  return (
+    <div className="<%- addons.includes('tailwind') || addons.includes('shadcn') ? 'p-8' : '' %>">
+      <h1 className="<%- addons.includes('tailwind') || addons.includes('shadcn') ? 'text-4xl font-bold tracking-tight' : '' %>">About</h1>
+      <p className="<%- addons.includes('tailwind') || addons.includes('shadcn') ? 'mt-4 text-lg text-gray-600' : '' %>">
+        This is the about page for the sample TanStack Start app.
+      </p>
+      <div className="mt-6">
+        <Link to="/" className="text-blue-500 hover:underline">Back Home</Link>
+      </div>
+    </div>
+  );
+}

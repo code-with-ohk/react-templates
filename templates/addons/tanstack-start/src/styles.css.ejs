@@ -1,7 +1,20 @@
-<% if (!addons.includes('react-router-framework') && !addons.includes('tanstack-start')) { %>
 <% if (addons.includes('tailwind') || addons.includes('shadcn')) { %>
 @import "tailwindcss";
 <% } %>
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+}
 
 <% if (addons.includes('shadcn')) { %>
 @plugin "tailwindcss-animate";
@@ -130,33 +143,13 @@
 	--sidebar-ring: oklch(0.442 0.017 285.786);
 }
 
-@theme inline {
-	--color-interaction: var(--interaction);
-	--color-interaction-foreground: var(--interaction-foreground);
-}
-
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
 	}
+
 	body {
 		@apply bg-background text-foreground;
 	}
-}
-<% } %>
-<% } else if (!addons.includes('tailwind')) { %>
-:root {
-	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-	line-height: 1.5;
-	font-weight: 400;
-
-	color-scheme: light dark;
-	color: rgba(255, 255, 255, 0.87);
-	background-color: #242424;
-
-	font-synthesis: none;
-	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 <% } %>

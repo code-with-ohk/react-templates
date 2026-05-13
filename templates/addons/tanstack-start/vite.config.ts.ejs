@@ -1,0 +1,26 @@
+import { defineConfig } from "vite";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import viteReact from "@vitejs/plugin-react";
+<% if (addons.includes('tailwind') || addons.includes('shadcn')) { %>
+import tailwindcss from "@tailwindcss/vite";
+<% } %>
+<% if (addons.includes('shadcn')) { %>
+import path from "path";
+<% } %>
+
+export default defineConfig({
+	plugins: [
+		<% if (addons.includes('tailwind') || addons.includes('shadcn')) { %>
+		tailwindcss(),
+		<% } %>
+		tanstackStart(),
+		viteReact(),
+	],
+	<% if (addons.includes('shadcn')) { %>
+	resolve: {
+		alias: {
+			"@": path.resolve(__dirname, "./src"),
+		},
+	},
+	<% } %>
+});

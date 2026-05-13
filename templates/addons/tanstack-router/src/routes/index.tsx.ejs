@@ -1,10 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
+<% if (addons.includes('shadcn')) { %>
+import { Button } from "@/components/ui/button";
+<% } %>
+<% if (addons.includes('tanstack-query')) { %>
+import { useSuspenseQuery } from "@tanstack/react-query";
+<% } %>
 
 export const Route = createFileRoute("/")({
 	component: Home,
 });
 
 function Home() {
+	<% if (addons.includes('tanstack-query')) { %>
+	const { data } = useSuspenseQuery({
+		queryKey: ["hello"],
+		queryFn: async () => {
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+			return "TanStack Query is working!";
+		},
+	});
+	<% } %>
+
 	return (
 		<div className="<%- addons.includes('tailwind') ? 'flex flex-col items-center justify-center gap-4 py-8' : '' %>">
 			<h1 className="<%- addons.includes('tailwind') ? 'text-4xl font-bold tracking-tight' : '' %>">
@@ -13,6 +29,22 @@ function Home() {
 			<p className="<%- addons.includes('tailwind') ? 'text-muted-foreground' : '' %>">
 				Work Smart && Hard, !(Hard || Smart)
 			</p>
+
+			<% if (addons.includes('tanstack-query')) { %>
+			<div className="<%- addons.includes('tailwind') ? 'mt-6' : '' %>">
+				<p>Query Result: {data}</p>
+			</div>
+			<% } %>
+
+			<% if (addons.includes('shadcn')) { %>
+			<div className="<%- addons.includes('tailwind') ? 'flex gap-2 mt-6' : '' %>">
+				<Button>Default</Button>
+				<Button variant="secondary">Secondary</Button>
+				<Button variant="outline">Outline</Button>
+				<Button variant="ghost">Ghost</Button>
+				<Button variant="destructive">Destructive</Button>
+			</div>
+			<% } %>
 		</div>
 	);
 }

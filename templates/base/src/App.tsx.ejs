@@ -1,4 +1,4 @@
-<% if (!addons.includes('react-router-framework') && !addons.includes('tanstack-router')) { %>
+<% if (!addons.includes('react-router-framework') && !addons.includes('tanstack-router') && !addons.includes('tanstack-start')) { %>
 <% if (addons.includes('react-router')) { %>
 import { Suspense } from "react";
 import { useRoutes } from "react-router-dom";
@@ -16,8 +16,21 @@ export default App;
 <% if (addons.includes('shadcn')) { %>
 import { Button } from "@/components/ui/button";
 <% } %>
+<% if (addons.includes('tanstack-query')) { %>
+import { useSuspenseQuery } from "@tanstack/react-query";
+<% } %>
 
 function Home() {
+	<% if (addons.includes('tanstack-query')) { %>
+	const { data } = useSuspenseQuery({
+		queryKey: ["hello"],
+		queryFn: async () => {
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+			return "TanStack Query is working!";
+		},
+	});
+	<% } %>
+
 	return (
 		<div className="<%- addons.includes('tailwind') ? 'flex h-screen w-full flex-col items-center justify-center gap-4' : '' %>">
 			<h1 className="<%- addons.includes('tailwind') ? 'text-4xl font-bold tracking-tight' : '' %>">
@@ -27,8 +40,14 @@ function Home() {
 				Work Smart && Hard, !(Hard || Smart)
 			</p>
 			
+			<% if (addons.includes('tanstack-query')) { %>
+			<div className="<%- addons.includes('tailwind') ? 'mt-6' : '' %>">
+				<p>Query Result: {data}</p>
+			</div>
+			<% } %>
+
 			<% if (addons.includes('shadcn')) { %>
-			<div className="flex gap-2">
+			<div className="<%- addons.includes('tailwind') ? 'flex gap-2 mt-6' : '' %>">
 				<Button>Default</Button>
 				<Button variant="secondary">Secondary</Button>
 				<Button variant="outline">Outline</Button>

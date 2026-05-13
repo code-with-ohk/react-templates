@@ -1,0 +1,14 @@
+{
+	"scripts": {
+		"dev": "vite dev --port 3000",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@tanstack/react-router": "latest",
+		"@tanstack/react-start": "latest"
+	},
+	"devDependencies": {
+		"@tanstack/router-plugin": "^1.167.35"
+	}
+}
