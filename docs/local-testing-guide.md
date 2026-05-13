@@ -7,7 +7,7 @@ Test CLI locally before publishing to NPM.
 Run entry script inside repo (/local).
 
 ```bash
-node app/index.js my-test-app
+node ../app/index.js my-test-app
 cd my-test-app
 npm install
 npm run dev

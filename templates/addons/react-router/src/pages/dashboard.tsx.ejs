@@ -1,18 +1,31 @@
 <% if (addons.includes('shadcn')) { %>
 import { Button } from "@/components/ui/button";
 <% } %>
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
-export default function Home() {
+export default function Dashboard() {
 	return (
 		<div className="<%- addons.includes('tailwind') ? 'flex flex-col items-center justify-center gap-4 py-8' : '' %>">
 			<h1 className="<%- addons.includes('tailwind') ? 'text-4xl font-bold tracking-tight' : '' %>">
-				Hello World
+				Dashboard
 			</h1>
 			<p className="<%- addons.includes('tailwind') ? 'text-muted-foreground' : '' %>">
-				Work Smart && Hard, !(Hard || Smart)
+				Nested route layout example.
 			</p>
-			
+
+			<nav className="flex gap-4">
+				<Link to="/dashboard" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>">
+					Overview
+				</Link>
+				<Link to="/dashboard/settings" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>">
+					Settings
+				</Link>
+			</nav>
+
+			<div className="mt-4 w-full max-w-md rounded-lg border p-4">
+				<Outlet />
+			</div>
+
 			<% if (addons.includes('shadcn')) { %>
 			<div className="flex gap-2">
 				<Button>Default</Button>
@@ -22,14 +35,6 @@ export default function Home() {
 				<Button variant="destructive">Destructive</Button>
 			</div>
 			<% } %>
-
-			<Link to="/about" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline mt-4' : '' %>">
-				Go to About Page
-			</Link>
-
-			<Link to="/dashboard" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>">
-				Go to Dashboard Example
-			</Link>
 		</div>
 	);
 }

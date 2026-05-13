@@ -1,0 +1,14 @@
+import { Link } from "react-router-dom";
+
+export default function DashboardSettings() {
+	return (
+		<div className="text-center">
+			<p className="<%- addons.includes('tailwind') ? 'text-muted-foreground' : '' %>">
+				This is the nested dashboard settings page.
+			</p>
+			<Link to="/dashboard" className="<%- addons.includes('tailwind') ? 'mt-3 inline-block text-blue-500 hover:underline' : '' %>">
+				Back to dashboard
+			</Link>
+		</div>
+	);
+}
