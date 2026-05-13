@@ -2,6 +2,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
+<% if (addons.includes('tanstack-query')) { %>
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./lib/query-client";
+<% } %>
 <% if (addons.includes('react-router') || !addons.includes('tanstack-router')) { %>
 import App from "./App";
 <% } %>
@@ -26,6 +30,9 @@ declare module "@tanstack/react-router" {
 
 createRoot(document.getElementById("root") as HTMLElement).render(
 	<StrictMode>
+		<% if (addons.includes('tanstack-query')) { %>
+		<QueryClientProvider client={queryClient}>
+		<% } %>
 		<% if (addons.includes('react-router')) { %>
 		<BrowserRouter>
 			<App />
@@ -34,6 +41,9 @@ createRoot(document.getElementById("root") as HTMLElement).render(
 		<RouterProvider router={router} />
 		<% } else { %>
 		<App />
+		<% } %>
+		<% if (addons.includes('tanstack-query')) { %>
+		</QueryClientProvider>
 		<% } %>
 	</StrictMode>
 );
