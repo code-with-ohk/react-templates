@@ -4,7 +4,7 @@ import viteReact from "@vitejs/plugin-react";
 <% if (addons.includes('tailwind') || addons.includes('shadcn')) { %>
 import tailwindcss from "@tailwindcss/vite";
 <% } %>
-<% if (addons.includes('shadcn')) { %>
+<% if (addons.includes('shadcn') || addons.includes('tanstack-query')) { %>
 import path from "path";
 <% } %>
 
@@ -16,7 +16,7 @@ export default defineConfig({
 		tanstackStart(),
 		viteReact(),
 	],
-	<% if (addons.includes('shadcn')) { %>
+	<% if (addons.includes('shadcn') || addons.includes('tanstack-query')) { %>
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "./src"),

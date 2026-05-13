@@ -6,7 +6,7 @@
 		"module": "ESNext",
 		"paths": {
 			<% if (addons.includes('tanstack-start')) { %>"#/*": ["./src/*"],
-			"@/*": ["./src/*"]<% } else { %>"#/*": ["./src/*"]<% if (addons.includes('shadcn')) { %>,
+			"@/*": ["./src/*"]<% } else { %>"#/*": ["./src/*"]<% if (addons.includes('shadcn') || addons.includes('tanstack-router')) { %>,
 			"@/*": ["./src/*"]
 			<% } %><% } %>
 		},
