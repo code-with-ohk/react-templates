@@ -3,6 +3,7 @@
 ## Current Add-ons
 - ✅ Tailwind CSS
 - ✅ Shadcn UI
+- ✅ TanStack Query
 - ✅ React Router
 - ✅ TanStack Router
 - ✅ React Router Framework
@@ -25,20 +26,7 @@
   - Pairs well with all other add-ons
   - No boilerplate
 
-#### 2. API Client (TanStack Query)
-**Rationale:** Industry standard for data fetching, caching, and synchronization.
-- **Package:** `@tanstack/react-query`
-- **Key Files:**
-  - `src/lib/queryClient.ts` - Client config
-  - `src/hooks/useApi.ts` - Custom hook for common queries
-  - `src/api/index.ts` - API endpoints setup
-- **Dependencies:** @tanstack/react-query
-- **Notes:**
-  - Automatic caching and background refetch
-  - DevTools support
-  - Works with any HTTP client (axios, fetch)
-
-#### 3. Authentication (JWT Setup)
+#### 2. Authentication (JWT Setup)
 **Rationale:** Most apps need auth; provides templates for common flows.
 - **Package:** None (custom setup)
 - **Key Files:**
@@ -51,7 +39,7 @@
   - Login/logout flows
   - Token refresh mechanism
 
-#### 4. Testing Framework (Vitest + React Testing Library)
+#### 3. Testing Framework (Vitest + React Testing Library)
 **Rationale:** Unit/component testing; helps users write quality code immediately.
 - **Packages:** `vitest`, `@testing-library/react`, `@testing-library/user-event`, `jsdom`
 - **Key Files:**
@@ -64,7 +52,7 @@
   - Fast, ESM-native
   - Full component testing coverage
 
-#### 5. Form Handling (React Hook Form + Zod)
+#### 4. Form Handling (React Hook Form + Zod)
 **Rationale:** Type-safe forms with minimal re-renders and validation.
 - **Packages:** `react-hook-form`, `zod`
 - **Key Files:**
@@ -122,8 +110,7 @@
 
 **Phase 1 (MVP):**
 1. State Management (Zustand)
-2. API Client (TanStack Query)
-3. Form Handling (React Hook Form + Zod)
+2. Form Handling (React Hook Form + Zod)
 
 **Phase 2:**
 4. Testing Framework (Vitest + React Testing Library)

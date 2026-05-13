@@ -27,5 +27,6 @@ This tool uses a **composition-based architecture** rather than shipping multipl
 - **Add-on Ecosystem:** Selectable additions that inject the exact files and dependencies needed for:
     - Tailwind CSS
     - Shadcn UI
+    - TanStack Query
     - Routing (React Router or TanStack Router)
 - **Dynamic EJS Processing:** All templates are EJS-based, allowing for dynamic file generation based on user choices.
