@@ -10,6 +10,7 @@ export const ADDONS = [
 	{ label: "Tailwind CSS", value: "tailwind" },
 	{ label: "Shadcn UI", value: "shadcn" },
 	{ label: "TanStack Query", value: "tanstack-query" },
+	{ label: "Forms", value: "forms" },
 	{ label: "Routing", value: "router" },
 ];
 

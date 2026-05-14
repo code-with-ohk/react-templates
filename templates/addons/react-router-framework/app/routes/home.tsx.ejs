@@ -1,6 +1,9 @@
 <% if (addons.includes('shadcn')) { %>
 import { Button } from "@/components/ui/button";
 <% } %>
+<% if (addons.includes('forms-rhf-zod')) { %>
+import { Link } from "react-router";
+<% } %>
 
 import type { Route } from "./+types/home";
 
@@ -29,6 +32,12 @@ export default function Home() {
         <Button variant="ghost">Ghost</Button>
         <Button variant="destructive">Destructive</Button>
       </div>
+      <% } %>
+
+      <% if (addons.includes('forms-rhf-zod')) { %>
+      <Link className="text-blue-600 hover:underline" to="/forms-demo">
+        Go to Forms Demo
+      </Link>
       <% } %>
     </div>
   );

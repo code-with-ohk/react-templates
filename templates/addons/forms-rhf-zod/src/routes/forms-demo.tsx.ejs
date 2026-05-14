@@ -1,0 +1,12 @@
+<% if (addons.includes('tanstack-router') || addons.includes('tanstack-start')) { %>
+import { createFileRoute } from '@tanstack/react-router'
+import { RHFZodDemoForm } from '../forms/demo-form'
+
+export const Route = createFileRoute('/forms-demo')({
+  component: FormsDemoRoute,
+})
+
+function FormsDemoRoute() {
+  return <RHFZodDemoForm />
+}
+<% } %>

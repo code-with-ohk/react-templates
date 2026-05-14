@@ -90,6 +90,36 @@ export async function run() {
 		addons.push(selectedRouter);
 	}
 
+	// 2.6 Select Forms stack if forms was selected
+	if (addons.includes("forms")) {
+		const selectedForm = await select({
+			message: "Which forms stack would you like?",
+			options: [
+				{
+					label: "React Hook Form + Zod (type-safe)",
+					value: "forms-rhf-zod",
+				},
+				{
+					label: "React Hook Form only (lightweight)",
+					value: "forms-rhf-only",
+				},
+				{
+					label: "TanStack Form (TypeScript-first)",
+					value: "forms-tanstack",
+				},
+			],
+		});
+
+		if (isCancel(selectedForm)) {
+			cancel("Operation cancelled.");
+			process.exit(0);
+		}
+
+		// replace 'forms' with the actual selected form addon
+		addons = addons.filter((a) => a !== "forms");
+		addons.push(selectedForm);
+	}
+
 	// If Shadcn is selected but Tailwind is not, automatically add Tailwind
 	if (addons.includes("shadcn") && !addons.includes("tailwind")) {
 		addons.push("tailwind");

@@ -1,0 +1,101 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+<% if (addons.includes('tanstack-query')) { %>
+import { useMutation } from '@tanstack/react-query'
+<% } %>
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+const demoSchema = z.object({
+  email: z.email('Enter a valid email address'),
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+})
+
+type DemoValues = z.infer<typeof demoSchema>
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+export function RHFZodDemoForm() {
+  const {
+    formState: { errors, isSubmitting },
+    handleSubmit,
+    register,
+    reset,
+  } = useForm<DemoValues>({
+    defaultValues: {
+      email: '',
+      name: '',
+    },
+    resolver: zodResolver(demoSchema),
+  })
+
+  <% if (addons.includes('tanstack-query')) { %>
+  const submitMutation = useMutation({
+    mutationFn: async (values: DemoValues) => {
+      await wait(450)
+      return values
+    },
+  })
+  <% } %>
+
+  const onSubmit = async (values: DemoValues) => {
+    <% if (addons.includes('tanstack-query')) { %>
+    await submitMutation.mutateAsync(values)
+    <% } else { %>
+    await wait(450)
+    <% } %>
+    reset(values)
+  }
+
+  return (
+    <section className="mx-auto w-full max-w-xl space-y-6 py-8">
+      <header className="space-y-2">
+        <h1 className="text-3xl font-semibold tracking-tight">Forms Demo</h1>
+        <p className="text-sm text-muted-foreground">React Hook Form + Zod with typed validation.</p>
+      </header>
+
+      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <div className="space-y-1">
+          <label className="text-sm font-medium" htmlFor="name">Name</label>
+          <input
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            id="name"
+            placeholder="Ada Lovelace"
+            {...register('name')}
+          />
+          {errors.name ? <p className="text-xs text-red-600">{errors.name.message}</p> : null}
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-sm font-medium" htmlFor="email">Email</label>
+          <input
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            id="email"
+            placeholder="ada@example.com"
+            {...register('email')}
+          />
+          {errors.email ? <p className="text-xs text-red-600">{errors.email.message}</p> : null}
+        </div>
+
+        <button
+          className="inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-60"
+          disabled={isSubmitting<% if (addons.includes('tanstack-query')) { %> || submitMutation.isPending<% } %>}
+          type="submit"
+        >
+          <% if (addons.includes('tanstack-query')) { %>
+          {submitMutation.isPending ? 'Submitting...' : 'Submit'}
+          <% } else { %>
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+          <% } %>
+        </button>
+      </form>
+
+      <% if (addons.includes('tanstack-query')) { %>
+      {submitMutation.data ? (
+        <pre className="overflow-x-auto rounded-md border border-border bg-muted p-3 text-xs">
+          {JSON.stringify(submitMutation.data, null, 2)}
+        </pre>
+      ) : null}
+      <% } %>
+    </section>
+  )
+}

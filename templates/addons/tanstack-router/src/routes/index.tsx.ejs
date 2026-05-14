@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 <% if (addons.includes('shadcn')) { %>
 import { Button } from "@/components/ui/button";
 <% } %>
@@ -43,6 +43,14 @@ function Home() {
 				<Button variant="outline">Outline</Button>
 				<Button variant="ghost">Ghost</Button>
 				<Button variant="destructive">Destructive</Button>
+			</div>
+			<% } %>
+
+			<% if (addons.includes('forms-rhf-zod')) { %>
+			<div className="<%- addons.includes('tailwind') ? 'mt-6' : '' %>">
+				<Link className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>" to="/forms-demo">
+					Go to Forms Demo
+				</Link>
 			</div>
 			<% } %>
 		</div>

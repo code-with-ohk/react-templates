@@ -1,0 +1,17 @@
+<% if (addons.includes('react-router')) { %>
+import { Link } from 'react-router-dom'
+import { RHFZodDemoForm } from '../forms/demo-form'
+
+export default function FormsDemoPage() {
+  return (
+    <div className="space-y-4">
+      <RHFZodDemoForm />
+      <div className="mx-auto w-full max-w-xl">
+        <Link className="text-sm text-blue-600 hover:underline" to="/">
+          Back Home
+        </Link>
+      </div>
+    </div>
+  )
+}
+<% } %>

@@ -45,6 +45,12 @@ export default function Home() {
 			<Link to="/about" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline mt-6' : '' %>">
 				Go to About Page
 			</Link>
+
+			<% if (addons.includes('forms-rhf-zod')) { %>
+			<Link to="/forms-demo" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>">
+				Go to Forms Demo
+			</Link>
+			<% } %>
 		</div>
 	);
 }
