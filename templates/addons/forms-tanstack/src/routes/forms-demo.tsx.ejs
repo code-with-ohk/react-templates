@@ -1,0 +1,10 @@
+import { createFileRoute } from '@tanstack/react-router'
+import { TanStackFormDemo } from '../forms/demo-form'
+
+export const Route = createFileRoute('/forms-demo')({
+  component: FormsDemoRoute,
+})
+
+function FormsDemoRoute() {
+  return <TanStackFormDemo />
+}

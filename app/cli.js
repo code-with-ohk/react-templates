@@ -100,10 +100,6 @@ export async function run() {
 					value: "forms-rhf-zod",
 				},
 				{
-					label: "React Hook Form only (lightweight)",
-					value: "forms-rhf-only",
-				},
-				{
 					label: "TanStack Form (TypeScript-first)",
 					value: "forms-tanstack",
 				},

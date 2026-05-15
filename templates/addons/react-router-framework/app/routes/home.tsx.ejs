@@ -1,7 +1,7 @@
 <% if (addons.includes('shadcn')) { %>
 import { Button } from "@/components/ui/button";
 <% } %>
-<% if (addons.includes('forms-rhf-zod')) { %>
+<% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack')) { %>
 import { Link } from "react-router";
 <% } %>
 
@@ -34,7 +34,7 @@ export default function Home() {
       </div>
       <% } %>
 
-      <% if (addons.includes('forms-rhf-zod')) { %>
+      <% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack')) { %>
       <Link className="text-blue-600 hover:underline" to="/forms-demo">
         Go to Forms Demo
       </Link>

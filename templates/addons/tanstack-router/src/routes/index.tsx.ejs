@@ -46,7 +46,7 @@ function Home() {
 			</div>
 			<% } %>
 
-			<% if (addons.includes('forms-rhf-zod')) { %>
+			<% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack')) { %>
 			<div className="<%- addons.includes('tailwind') ? 'mt-6' : '' %>">
 				<Link className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>" to="/forms-demo">
 					Go to Forms Demo

@@ -13,9 +13,16 @@ function App() {
 }
 export default App;
 <% } else { %>
+<% if (addons.includes('forms-rhf-zod')) { %>
+import { RHFZodDemoForm as FormDemo } from "./forms/demo-form";
+<% } else if (addons.includes('forms-tanstack')) { %>
+import { TanStackFormDemo as FormDemo } from "./forms/demo-form";
+<% } %>
+
 <% if (addons.includes('shadcn')) { %>
 import { Button } from "@/components/ui/button";
 <% } %>
+
 <% if (addons.includes('tanstack-query')) { %>
 import { useSuspenseQuery } from "@tanstack/react-query";
 <% } %>
@@ -31,6 +38,29 @@ function Home() {
 	});
 	<% } %>
 
+	<% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack')) { %>
+	return (
+		<div className="<%- addons.includes('tailwind') ? 'flex min-h-screen w-full flex-col items-center justify-center gap-6 px-4 py-8' : '' %>">
+			<FormDemo />
+
+			<% if (addons.includes('tanstack-query')) { %>
+			<div className="<%- addons.includes('tailwind') ? 'rounded-md border border-border bg-muted px-4 py-3 text-sm' : '' %>">
+				<p>Query Result: {data}</p>
+			</div>
+			<% } %>
+
+			<% if (addons.includes('shadcn')) { %>
+			<div className="<%- addons.includes('tailwind') ? 'flex flex-wrap gap-2' : '' %>">
+				<Button>Default</Button>
+				<Button variant="secondary">Secondary</Button>
+				<Button variant="outline">Outline</Button>
+				<Button variant="ghost">Ghost</Button>
+				<Button variant="destructive">Destructive</Button>
+			</div>
+			<% } %>
+		</div>
+	);
+	<% } else { %>
 	return (
 		<div className="<%- addons.includes('tailwind') ? 'flex h-screen w-full flex-col items-center justify-center gap-4' : '' %>">
 			<h1 className="<%- addons.includes('tailwind') ? 'text-4xl font-bold tracking-tight' : '' %>">
@@ -57,6 +87,7 @@ function Home() {
 			<% } %>
 		</div>
 	);
+	<% } %>
 }
 
 function App() {

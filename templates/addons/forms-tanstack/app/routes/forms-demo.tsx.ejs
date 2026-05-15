@@ -1,0 +1,17 @@
+<% if (addons.includes('react-router-framework')) { %>
+import { Link } from 'react-router'
+import { TanStackFormDemo } from '../../src/forms/demo-form'
+
+export default function FormsDemoRoute() {
+  return (
+    <main className="px-4 py-8">
+      <TanStackFormDemo />
+      <div className="mx-auto w-full max-w-xl">
+        <Link className="text-sm text-blue-600 hover:underline" to="/">
+          Back Home
+        </Link>
+      </div>
+    </main>
+  )
+}
+<% } %>

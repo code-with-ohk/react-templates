@@ -1,0 +1,135 @@
+<% if (addons.includes('tanstack-query')) { %>
+import { useMutation } from '@tanstack/react-query'
+<% } %>
+import { useForm } from '@tanstack/react-form'
+
+type DemoValues = {
+  email: string
+  firstName: string
+}
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+export function TanStackFormDemo() {
+<% if (addons.includes('tanstack-query')) { %>
+  const submitMutation = useMutation({
+    mutationFn: async (values: DemoValues) => {
+      await wait(450)
+      return values
+    },
+  })
+<% } %>
+
+<% if (addons.includes('tanstack-query')) { %>
+  const isSubmittingRemote = submitMutation.isPending
+  const submittedData = submitMutation.data
+<% } else { %>
+  const isSubmittingRemote = false
+  const submittedData = null as DemoValues | null
+<% } %>
+
+  const onSubmit = async ({ value }: { value: DemoValues }) => {
+<% if (addons.includes('tanstack-query')) { %>
+    await submitMutation.mutateAsync(value);
+<% } else { %>
+    await wait(450);
+<% } %>
+  };
+
+  const form = useForm({
+    defaultValues: {
+      email: '',
+      firstName: '',
+    },
+    onSubmit,
+  })
+
+  return (
+    <section className="mx-auto w-full max-w-xl space-y-6 py-8">
+      <header className="space-y-2">
+        <h1 className="text-3xl font-semibold tracking-tight">Forms Demo</h1>
+        <p className="text-sm text-muted-foreground">TanStack Form with typed field validation.</p>
+      </header>
+
+      <form
+        className="space-y-4"
+        onSubmit={(event) => {
+          event.preventDefault()
+          event.stopPropagation()
+          form.handleSubmit()
+        }}
+      >
+        <form.Field
+          name="firstName"
+          validators={{
+            onChange: ({ value }) => (!value ? 'Name must be at least 2 characters' : undefined),
+          }}
+          children={(field) => (
+            <div className="space-y-1">
+              <label className="text-sm font-medium" htmlFor={field.name}>
+                Name
+              </label>
+              <input
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                id={field.name}
+                name={field.name}
+                onBlur={field.handleBlur}
+                onChange={(event) => field.handleChange(event.target.value)}
+                placeholder="Ada Lovelace"
+                value={field.state.value}
+              />
+              {field.state.meta.errors.length ? (
+                <p className="text-xs text-red-600">{field.state.meta.errors.join(', ')}</p>
+              ) : null}
+            </div>
+          )}
+        />
+
+        <form.Field
+          name="email"
+          validators={{
+            onChange: ({ value }) =>
+              !value || !String(value).includes('@') ? 'Enter a valid email address' : undefined,
+          }}
+          children={(field) => (
+            <div className="space-y-1">
+              <label className="text-sm font-medium" htmlFor={field.name}>
+                Email
+              </label>
+              <input
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                id={field.name}
+                name={field.name}
+                onBlur={field.handleBlur}
+                onChange={(event) => field.handleChange(event.target.value)}
+                placeholder="ada@example.com"
+                value={field.state.value}
+              />
+              {field.state.meta.errors.length ? (
+                <p className="text-xs text-red-600">{field.state.meta.errors.join(', ')}</p>
+              ) : null}
+            </div>
+          )}
+        />
+
+        <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+          {([canSubmit, isSubmitting]) => (
+            <button
+              className="inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-60"
+              disabled={!canSubmit || isSubmitting || isSubmittingRemote}
+              type="submit"
+            >
+              {isSubmittingRemote ? 'Submitting...' : 'Submit'}
+            </button>
+          )}
+        </form.Subscribe>
+      </form>
+
+      {submittedData ? (
+        <pre className="overflow-x-auto rounded-md border border-border bg-muted p-3 text-xs">
+          {JSON.stringify(submittedData, null, 2)}
+        </pre>
+      ) : null}
+    </section>
+  )
+}

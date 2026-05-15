@@ -46,7 +46,7 @@ export default function Home() {
 				Go to About Page
 			</Link>
 
-			<% if (addons.includes('forms-rhf-zod')) { %>
+			<% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack')) { %>
 			<Link to="/forms-demo" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>">
 				Go to Forms Demo
 			</Link>
