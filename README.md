@@ -29,4 +29,5 @@ This tool uses a **composition-based architecture** rather than shipping multipl
     - Shadcn UI
     - TanStack Query
     - Routing (React Router, TanStack Start, or TanStack Router)
+    - Forms (React Hook Form + Zod, or TanStack Form)
 - **Dynamic EJS Processing:** All templates are EJS-based, allowing for dynamic file generation based on user choices.
