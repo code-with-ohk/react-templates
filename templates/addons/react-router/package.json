@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "react-router-dom": "^7.15.0"
+    "react-router-dom": "^7.15.1"
   },
   "devDependencies": {
     "vite-plugin-pages": "^0.33.3"
