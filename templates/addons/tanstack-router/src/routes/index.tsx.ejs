@@ -46,7 +46,7 @@ function Home() {
 			</div>
 			<% } %>
 
-			<% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack')) { %>
+			<% if (queries.formsRHFZod || queries.formsTanStack) { %>
 			<div className="<%- queries.tailwind ? 'mt-6' : '' %>">
 				<Link className="<%- queries.tailwind ? 'text-blue-500 hover:underline' : '' %>" to="/forms-demo">
 					Go to Forms Demo
@@ -54,7 +54,7 @@ function Home() {
 			</div>
 			<% } %>
 
-			<% if (addons.includes('auth-clerk')) { %>
+			<% if (queries.authClerk) { %>
 			<div className="<%- queries.tailwind ? 'mt-6 flex gap-4' : '' %>">
 				<Link className="<%- queries.tailwind ? 'text-blue-500 hover:underline' : '' %>" to="/login">
 					Sign In

@@ -13,9 +13,9 @@ function App() {
 }
 export default App;
 <% } else { %>
-<% if (addons.includes('forms-rhf-zod')) { %>
+<% if (queries.formsRHFZod) { %>
 import { RHFZodDemoForm as FormDemo } from "./forms/demo-form";
-<% } else if (addons.includes('forms-tanstack')) { %>
+<% } else if (queries.formsTanStack) { %>
 import { TanStackFormDemo as FormDemo } from "./forms/demo-form";
 <% } %>
 
@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button";
 import { useSuspenseQuery } from "@tanstack/react-query";
 <% } %>
 
-<% if (addons.includes('auth-clerk') || addons.includes('auth-supabase') || addons.includes('auth-jwt')) { %>
+<% if (queries.authClerk || queries.authSupabase || queries.authJwt) { %>
 import LoginOrProtectedPanel from "./auth/login-panel";
 <% } %>
 
@@ -42,7 +42,7 @@ function Home() {
 	});
 	<% } %>
 
-	<% if (addons.includes('auth-clerk') || addons.includes('auth-supabase') || addons.includes('auth-jwt')) { %>
+	<% if (queries.authClerk || queries.authSupabase || queries.authJwt) { %>
 	return <LoginOrProtectedPanel />;
 	<% } else { %>
 	return (
@@ -60,7 +60,7 @@ function Home() {
 			</div>
 			<% } %>
 
-			<% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack')) { %>
+			<% if (queries.formsRHFZod || queries.formsTanStack) { %>
 			<div className="<%- queries.tailwind ? 'mt-6' : '' %>">
 				<FormDemo />
 			</div>

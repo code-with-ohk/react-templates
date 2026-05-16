@@ -1,7 +1,7 @@
 <% if (queries.shadcn) { %>
 import { Button } from "@/components/ui/button";
 <% } %>
-<% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack') || addons.includes('auth-clerk')) { %>
+<% if (queries.formsRHFZod || queries.formsTanStack || queries.authClerk) { %>
 import { Link } from "react-router";
 <% } %>
 
@@ -34,13 +34,13 @@ export default function Home() {
       </div>
       <% } %>
 
-      <% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack')) { %>
+      <% if (queries.formsRHFZod || queries.formsTanStack) { %>
       <Link className="text-blue-600 hover:underline" to="/forms-demo">
         Go to Forms Demo
       </Link>
       <% } %>
 
-      <% if (addons.includes('auth-clerk')) { %>
+      <% if (queries.authClerk) { %>
       <div className="<%- queries.tailwind ? 'mt-6 flex gap-4' : '' %>">
         <Link className="text-blue-600 hover:underline" to="/login">
           Sign In

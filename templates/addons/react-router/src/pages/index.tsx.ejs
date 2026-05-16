@@ -46,13 +46,13 @@ export default function Home() {
 				Go to About Page
 			</Link>
 
-			<% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack')) { %>
+			<% if (queries.formsRHFZod || queries.formsTanStack) { %>
 			<Link to="/forms-demo" className="<%- queries.tailwind ? 'text-blue-500 hover:underline' : '' %>">
 				Go to Forms Demo
 			</Link>
 			<% } %>
 
-			<% if (addons.includes('auth-clerk')) { %>
+			<% if (queries.authClerk) { %>
 			<div className="<%- queries.tailwind ? 'mt-6 flex gap-4' : '' %>">
 				<Link to="/login" className="<%- queries.tailwind ? 'text-blue-500 hover:underline' : '' %>">
 					Sign In
