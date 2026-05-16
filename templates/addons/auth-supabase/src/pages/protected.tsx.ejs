@@ -1,0 +1,31 @@
+<% if (addons.includes('react-router')) { %>
+import { RequireAuth } from '../auth/require-auth'
+import { useAuth } from '../auth/context'
+
+export default function ProtectedPage() {
+  return (
+    <RequireAuth>
+      <ProtectedContent />
+    </RequireAuth>
+  )
+}
+
+function ProtectedContent() {
+  const { session, signOut } = useAuth() as any
+
+  return (
+    <div className="flex min-h-[70vh] w-full items-center justify-center px-4 py-10">
+      <div className="w-full max-w-md rounded-2xl border border-border bg-background/80 p-6 shadow-sm backdrop-blur">
+        <div className="space-y-2">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Protected</p>
+          <h1 className="text-2xl font-semibold tracking-tight">This is protected content</h1>
+          <p className="text-sm text-muted-foreground">Supabase auth is working.</p>
+        </div>
+        <div className="mt-6 flex gap-3">
+          <button type="button" onClick={() => void signOut()} className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-secondary px-4 text-sm font-medium transition-colors hover:bg-secondary/80">Sign out</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+<% } %>

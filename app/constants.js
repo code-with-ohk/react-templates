@@ -24,3 +24,9 @@ export const ROUTERS = [
 	{ label: "TanStack Start (Latest)", value: "tanstack-start" },
 	{ label: "TanStack Router (File-based SPA)", value: "tanstack-router" },
 ];
+
+export const AUTHENTICATION_PROVIDERS = [
+	{ label: "Clerk (Managed Auth, fastest)", value: "auth-clerk" },
+	{ label: "Supabase Auth (DB-friendly)", value: "auth-supabase" },
+	{ label: "JWT Custom (manual backend)", value: "auth-jwt" },
+];

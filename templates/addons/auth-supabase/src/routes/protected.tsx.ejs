@@ -1,0 +1,19 @@
+<% if (addons.includes('tanstack-router') || addons.includes('tanstack-start')) { %>
+import { createFileRoute } from '@tanstack/react-router'
+import { RequireAuth } from '../auth/require-auth'
+import { useAuth } from '../auth/context'
+
+export const Route = createFileRoute('/protected')({ component: ProtectedRoute })
+
+function ProtectedRoute() {
+  const { signOut } = useAuth() as any
+
+  return (
+    <RequireAuth>
+      <div className="flex min-h-[70vh] w-full items-center justify-center px-4 py-10">Protected (Supabase)
+        <button onClick={() => void signOut()}>Sign out</button>
+      </div>
+    </RequireAuth>
+  )
+}
+<% } %>

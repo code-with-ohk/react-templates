@@ -19,7 +19,7 @@ import {
 	installDependencies,
 } from "./scaffold.js";
 import { processEjsTemplates } from "./template.js";
-import { ADDONS, ROUTERS } from "./constants.js";
+import { ADDONS, ROUTERS, AUTHENTICATION_PROVIDERS } from "./constants.js";
 
 export async function run() {
 	intro(
@@ -120,20 +120,7 @@ export async function run() {
 	if (addons.includes("auth")) {
 		const selectedAuth = await select({
 			message: "Which auth provider would you like to use?",
-			options: [
-				{
-					label: "Clerk (Managed Auth, fastest)",
-					value: "auth-clerk",
-				},
-				{
-					label: "Supabase Auth (DB-friendly)",
-					value: "auth-supabase",
-				},
-				{
-					label: "JWT Custom (manual backend)",
-					value: "auth-jwt",
-				},
-			],
+			options: AUTHENTICATION_PROVIDERS,
 		});
 
 		if (isCancel(selectedAuth)) {
@@ -172,7 +159,21 @@ export async function run() {
 
 		// C. Process EJS Templates
 		s.message(`Processing templates...`);
-		await processEjsTemplates(targetDir, { addons, name: projectName });
+		// Build helpful boolean flags for templates
+		const queries = {
+			reactRouter: addons.includes("react-router"),
+			reactRouterFramework: addons.includes("react-router-framework"),
+			tanstackRouter: addons.includes("tanstack-router"),
+			tanstackStart: addons.includes("tanstack-start"),
+			shadcn: addons.includes("shadcn"),
+			tailwind: addons.includes("tailwind"),
+		};
+
+		await processEjsTemplates(targetDir, {
+			addons,
+			name: projectName,
+			queries,
+		});
 
 		// D. Update package.json name
 		const pkgPath = path.join(targetDir, "package.json");

@@ -1,0 +1,61 @@
+<% if (!addons.includes('react-router') && !addons.includes('react-router-framework') && !addons.includes('tanstack-router') && !addons.includes('tanstack-start')) { %>
+import { useState } from 'react'
+import { useAuth } from './context'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+
+export default function LoginOrProtectedPanel() {
+  const { session, signOut } = useAuth() as any
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  if (session.isLoading) return null
+
+  async function signInWithMagicLink() {
+    setLoading(true)
+    await supabase.auth.signInWithOtp({ email })
+    setLoading(false)
+  }
+
+  async function signInWithGithub() {
+    await supabase.auth.signInWithOAuth({ provider: 'github' })
+  }
+
+  return session.isAuthenticated ? (
+    <section className="flex min-h-[70vh] w-full items-center justify-center px-4 py-10">
+      <div className="w-full max-w-md rounded-2xl border border-border bg-background/80 p-6 shadow-sm backdrop-blur">
+        <div className="space-y-2">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Authenticated</p>
+          <h2 className="text-2xl font-semibold tracking-tight">Protected area</h2>
+          <p className="text-sm text-muted-foreground">You are signed in.</p>
+        </div>
+        <div className="mt-6">
+          <button
+            type="button"
+            onClick={() => void signOut()}
+            className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-secondary px-4 text-sm font-medium transition-colors hover:bg-secondary/80"
+          >
+            Sign out
+          </button>
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section className="flex min-h-[70vh] w-full items-center justify-center px-4 py-10">
+      <div className="w-full max-w-md rounded-2xl border border-border bg-background/80 p-3 shadow-sm backdrop-blur">
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-muted-foreground">Email</label>
+            <input value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 w-full rounded-md border px-3 py-2" />
+          </div>
+          <div className="flex gap-2">
+            <button onClick={signInWithMagicLink} className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-primary px-4 text-sm font-medium text-white">{loading ? 'Sending...' : 'Send magic link'}</button>
+            <button onClick={signInWithGithub} className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-secondary px-4 text-sm font-medium">Sign in with GitHub</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+<% } %>

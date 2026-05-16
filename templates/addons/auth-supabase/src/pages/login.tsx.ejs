@@ -1,0 +1,19 @@
+<% if (addons.includes('react-router')) { %>
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+
+export default function LoginPage() {
+  return (
+    <div className="flex min-h-screen w-full items-center justify-center px-4 py-10">
+      <div className="w-full max-w-md rounded-2xl border border-border bg-background/80 p-3 shadow-sm backdrop-blur">
+        <h2 className="text-xl font-semibold">Sign in</h2>
+        <p className="text-sm text-muted-foreground">Use magic link or OAuth provider.</p>
+        <div className="mt-4">
+          <button onClick={() => supabase.auth.signInWithOAuth({ provider: 'github' })} className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-secondary px-4 text-sm font-medium">Sign in with GitHub</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+<% } %>

@@ -1,0 +1,12 @@
+import type { ReactNode } from 'react'
+import { createClient } from '@supabase/supabase-js'
+import { AuthProviderWrapper } from './context'
+
+const url = import.meta.env.VITE_SUPABASE_URL
+const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+const supabase = createClient(url, anonKey)
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  return <AuthProviderWrapper supabase={supabase}>{children}</AuthProviderWrapper>
+}
