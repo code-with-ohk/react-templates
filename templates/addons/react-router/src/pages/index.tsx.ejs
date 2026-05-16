@@ -52,7 +52,7 @@ export default function Home() {
 			</Link>
 			<% } %>
 
-			<% if (queries.authClerk) { %>
+			<% if (queries.authClerk || queries.authSupabase) { %>
 			<div className="<%- queries.tailwind ? 'mt-6 flex gap-4' : '' %>">
 				<Link to="/login" className="<%- queries.tailwind ? 'text-blue-500 hover:underline' : '' %>">
 					Sign In

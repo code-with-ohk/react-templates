@@ -3,10 +3,10 @@ import {
 	useContext,
 	useEffect,
 	useState,
-	ReactNode,
+	type ReactNode,
 } from "react";
-import type { SupabaseClient, Session, User } from "@supabase/supabase-js";
-import type { AuthApi, AuthSession } from "../../auth-clerk/src/types/auth";
+import type { SupabaseClient, User } from "@supabase/supabase-js";
+import type { AuthApi, AuthSession } from "../types/auth";
 
 const noop = async () => {};
 
@@ -39,7 +39,7 @@ export function AuthProviderWrapper({
 		load();
 
 		const { data: listener } = supabase.auth.onAuthStateChange(
-			(_event, session) => {
+			(_event: any, session: any) => {
 				setUser(session?.user ?? null);
 				setIsLoading(false);
 			},
@@ -69,7 +69,7 @@ export function AuthProviderWrapper({
 	const api: AuthApi = {
 		session,
 		signIn: async () => {
-			// Intentionally noop; use provided UI (magic link / oauth)
+			// Intentionally noop; use provided UI (OAuth providers: Google, GitHub)
 		},
 		signOut: async () => {
 			await supabase.auth.signOut();

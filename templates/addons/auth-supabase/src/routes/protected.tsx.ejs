@@ -1,17 +1,30 @@
 <% if (queries.tanstackRouter || queries.tanstackStart) { %>
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { RequireAuth } from '../auth/require-auth'
 import { useAuth } from '../auth/context'
 
 export const Route = createFileRoute('/protected')({ component: ProtectedRoute })
 
 function ProtectedRoute() {
-  const { signOut } = useAuth() as any
-
+  const { signOut, session } = useAuth() as any
   return (
     <RequireAuth>
-      <div className="flex min-h-[70vh] w-full items-center justify-center px-4 py-10">Protected (Supabase)
-        <button onClick={() => void signOut()}>Sign out</button>
+      <div className="flex min-h-screen w-full flex-col items-center justify-center px-4 py-10">
+        <div className="w-full max-w-md rounded-2xl border border-border bg-background/80 p-6 shadow-sm backdrop-blur">
+          <div className="space-y-2 mb-6">
+            <h1 className="text-2xl font-semibold tracking-tight">Protected Content</h1>
+            <p className="text-sm text-muted-foreground">You are authenticated!</p>
+          </div>
+          <div className="space-y-4 mb-6 p-4 rounded-md bg-secondary/50">
+            <p className="text-sm"><span className="font-medium">User ID:</span> {session.user?.id}</p>
+            <p className="text-sm"><span className="font-medium">Email:</span> {session.user?.email}</p>
+            {session.user?.name && <p className="text-sm"><span className="font-medium">Name:</span> {session.user.name}</p>}
+          </div>
+          <div className="flex gap-2">
+            <Link to="/" className="flex-1 h-10 rounded-md border border-border bg-background text-foreground font-medium hover:bg-secondary flex items-center justify-center">Back Home</Link>
+            <button onClick={() => signOut()} className="flex-1 h-10 rounded-md bg-destructive text-destructive-foreground font-medium hover:bg-destructive/90">Sign Out</button>
+          </div>
+        </div>
       </div>
     </RequireAuth>
   )

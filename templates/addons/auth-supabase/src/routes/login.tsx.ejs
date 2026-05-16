@@ -1,12 +1,51 @@
 <% if (queries.tanstackRouter || queries.tanstackStart) { %>
 import { createFileRoute } from '@tanstack/react-router'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+import { supabase } from '../lib/supabase'
 
 export const Route = createFileRoute('/login')({ component: LoginRoute })
 
 function LoginRoute() {
-  return <div className="flex min-h-screen w-full items-center justify-center px-4 py-10">Login (Supabase)</div>
+  const [loading, setLoading] = useState(false)
+
+  const signInWithProvider = async (provider: 'google' | 'github') => {
+    setLoading(true)
+    await supabase.auth.signInWithOAuth({ provider })
+    setLoading(false)
+  }
+
+  function signInWithGoogle() {
+    void signInWithProvider('google')
+  }
+
+  function signInWithGithub() {
+    void signInWithProvider('github')
+  }
+
+  return (
+    <div className="flex min-h-screen w-full items-center justify-center px-4 py-10">
+      <div className="w-full max-w-md rounded-2xl border border-border bg-background/80 p-6 shadow-sm backdrop-blur">
+        <div className="space-y-2 mb-6">
+          <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
+          <p className="text-sm text-muted-foreground">Use Google or GitHub to sign in</p>
+        </div>
+        <div className="space-y-3">
+          <button
+            onClick={signInWithGoogle}
+            disabled={loading}
+            className="w-full h-10 rounded-md bg-primary text-primary-foreground font-medium disabled:opacity-50"
+          >
+            {loading ? 'Signing in...' : 'Sign in with Google'}
+          </button>
+          <button
+            onClick={signInWithGithub}
+            disabled={loading}
+            className="w-full h-10 rounded-md border border-border bg-secondary hover:bg-secondary/80 text-foreground font-medium disabled:opacity-50"
+          >
+            Sign in with GitHub
+          </button>
+        </div>
+      </div>
+    </div>
+  )
 }
 <% } %>

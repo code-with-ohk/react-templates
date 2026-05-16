@@ -1,7 +1,7 @@
 <% if (queries.shadcn) { %>
 import { Button } from "@/components/ui/button";
 <% } %>
-<% if (queries.formsRHFZod || queries.formsTanStack || queries.authClerk) { %>
+<% if (queries.formsRHFZod || queries.formsTanStack || queries.authClerk || queries.authSupabase) { %>
 import { Link } from "react-router";
 <% } %>
 
@@ -40,7 +40,7 @@ export default function Home() {
       </Link>
       <% } %>
 
-      <% if (queries.authClerk) { %>
+      <% if (queries.authClerk || queries.authSupabase) { %>
       <div className="<%- queries.tailwind ? 'mt-6 flex gap-4' : '' %>">
         <Link className="text-blue-600 hover:underline" to="/login">
           Sign In

@@ -1,7 +1,7 @@
-import React from "react";
+import type { ReactNode } from "react";
 import { useAuth } from "./context";
 
-export function RequireAuth({ children }: { children: React.ReactNode }) {
+export function RequireAuth({ children }: { children: ReactNode }) {
 	const { session } = useAuth() as any;
 
 	if (session.isLoading) return null;

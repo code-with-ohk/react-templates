@@ -55,7 +55,7 @@
 						</Link>
 					</div>
 					<% } %>
-					<% if (queries.authClerk) { %>
+					<% if (queries.authClerk || queries.authSupabase) { %>
 					<div className="mt-4 flex gap-4">
 						<Link to="/login" className="text-blue-500 hover:underline">
 							Sign In

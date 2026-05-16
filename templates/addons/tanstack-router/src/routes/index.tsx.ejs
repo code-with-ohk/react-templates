@@ -54,7 +54,7 @@ function Home() {
 			</div>
 			<% } %>
 
-			<% if (queries.authClerk) { %>
+			<% if (queries.authClerk || queries.authSupabase) { %>
 			<div className="<%- queries.tailwind ? 'mt-6 flex gap-4' : '' %>">
 				<Link className="<%- queries.tailwind ? 'text-blue-500 hover:underline' : '' %>" to="/login">
 					Sign In

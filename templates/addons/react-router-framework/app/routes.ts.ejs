@@ -1,3 +1,14 @@
-import { type RouteConfig, index } from "@react-router/dev/routes";
+<% if (queries.reactRouterFramework) { %>
+import { type RouteConfig, index, route } from "@react-router/dev/routes";
 
-export default [index("routes/home.tsx")] satisfies RouteConfig;
+export default [
+	index("routes/home.tsx"),
+	<% if (queries.authClerk || queries.authSupabase || queries.authJwt) { %>
+	route("login", "routes/login.tsx"),
+	route("protected", "routes/protected.tsx"),
+	<% } %>
+	<% if (queries.formsRHFZod || queries.formsTanstack) { %>
+	route("forms-demo", "routes/forms-demo.tsx"),
+	<% } %>
+] satisfies RouteConfig;
+<% } %>

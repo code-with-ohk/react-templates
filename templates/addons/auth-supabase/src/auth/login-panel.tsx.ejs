@@ -1,25 +1,26 @@
 <% if (!queries.reactRouter && !queries.reactRouterFramework && !queries.tanstackRouter && !queries.tanstackStart) { %>
-import { useState } from 'react'
 import { useAuth } from './context'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+import { supabase } from '../lib/supabase'
 
 export default function LoginOrProtectedPanel() {
   const { session, signOut } = useAuth() as any
-  const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
 
   if (session.isLoading) return null
 
-  async function signInWithMagicLink() {
-    setLoading(true)
-    await supabase.auth.signInWithOtp({ email })
-    setLoading(false)
+  async function signInWithProvider(provider: 'google' | 'github') {
+    await supabase.auth.signInWithOAuth({ provider })
   }
 
-  async function signInWithGithub() {
-    await supabase.auth.signInWithOAuth({ provider: 'github' })
+  function handleSignOut() {
+    void signOut()
+  }
+
+  function handleSignInGoogle() {
+    void signInWithProvider('google')
+  }
+
+  function handleSignInGithub() {
+    void signInWithProvider('github')
   }
 
   return session.isAuthenticated ? (
@@ -30,10 +31,10 @@ export default function LoginOrProtectedPanel() {
           <h2 className="text-2xl font-semibold tracking-tight">Protected area</h2>
           <p className="text-sm text-muted-foreground">You are signed in.</p>
         </div>
-        <div className="mt-6">
+          <div className="mt-6">
           <button
             type="button"
-            onClick={() => void signOut()}
+            onClick={handleSignOut}
             className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-secondary px-4 text-sm font-medium transition-colors hover:bg-secondary/80"
           >
             Sign out
@@ -45,13 +46,9 @@ export default function LoginOrProtectedPanel() {
     <section className="flex min-h-[70vh] w-full items-center justify-center px-4 py-10">
       <div className="w-full max-w-md rounded-2xl border border-border bg-background/80 p-3 shadow-sm backdrop-blur">
         <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-muted-foreground">Email</label>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 w-full rounded-md border px-3 py-2" />
-          </div>
           <div className="flex gap-2">
-            <button onClick={signInWithMagicLink} className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-primary px-4 text-sm font-medium text-white">{loading ? 'Sending...' : 'Send magic link'}</button>
-            <button onClick={signInWithGithub} className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-secondary px-4 text-sm font-medium">Sign in with GitHub</button>
+            <button onClick={handleSignInGoogle} className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-primary px-4 text-sm font-medium text-white">Sign in with Google</button>
+            <button onClick={handleSignInGithub} className="inline-flex h-10 items-center justify-center rounded-md border border-border bg-secondary px-4 text-sm font-medium">Sign in with GitHub</button>
           </div>
         </div>
       </div>
