@@ -3,7 +3,7 @@ import { type RouteConfig, index, route } from "@react-router/dev/routes";
 
 export default [
 	index("routes/home.tsx"),
-	<% if (queries.authClerk || queries.authSupabase || queries.authJwt) { %>
+	<% if (queries.authClerk || queries.authSupabase) { %>
 	route("login", "routes/login.tsx"),
 	route("protected", "routes/protected.tsx"),
 	<% } %>

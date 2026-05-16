@@ -129,10 +129,6 @@ export async function run() {
 					label: "Supabase Auth (DB-friendly)",
 					value: "auth-supabase",
 				},
-				{
-					label: "JWT Custom (manual backend)",
-					value: "auth-jwt",
-				},
 			],
 		});
 

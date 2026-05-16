@@ -6,7 +6,7 @@ import "./index.css";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/query-client";
 <% } %>
-<% if (queries.authClerk || queries.authSupabase || queries.authJwt) { %>
+<% if (queries.authClerk || queries.authSupabase) { %>
 import { AuthProvider } from "./auth/provider";
 <% } %>
 <% if (queries.reactRouter || !queries.tanstackRouter) { %>
@@ -22,7 +22,7 @@ import { router } from "./router";
 
 createRoot(document.getElementById("root") as HTMLElement).render(
 	<StrictMode>
-		<% if (queries.authClerk || queries.authSupabase || queries.authJwt) { %>
+		<% if (queries.authClerk || queries.authSupabase) { %>
 		<AuthProvider>
 		<% } %>
 		<% if (queries.tanstackQuery) { %>
@@ -40,7 +40,7 @@ createRoot(document.getElementById("root") as HTMLElement).render(
 		<% if (queries.tanstackQuery) { %>
 		</QueryClientProvider>
 		<% } %>
-		<% if (queries.authClerk || queries.authSupabase || queries.authJwt) { %>
+		<% if (queries.authClerk || queries.authSupabase) { %>
 		</AuthProvider>
 		<% } %>
 	</StrictMode>

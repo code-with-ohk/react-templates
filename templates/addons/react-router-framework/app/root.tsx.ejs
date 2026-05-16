@@ -11,7 +11,7 @@ import {
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../src/lib/query-client";
 <% } %>
-<% if (queries.authClerk || queries.authSupabase || queries.authJwt) { %>
+<% if (queries.authClerk || queries.authSupabase) { %>
 import { AuthProvider } from "../src/auth/provider";
 <% } %>
 
@@ -51,7 +51,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   <% if (queries.tanstackQuery) { %>
   return (
-    <% if (queries.authClerk || queries.authSupabase || queries.authJwt) { %>
+    <% if (queries.authClerk || queries.authSupabase) { %>
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <Outlet />
@@ -64,7 +64,7 @@ export default function App() {
     <% } %>
   );
   <% } else { %>
-  <% if (queries.authClerk || queries.authSupabase || queries.authJwt) { %>
+  <% if (queries.authClerk || queries.authSupabase) { %>
   return (
     <AuthProvider>
       <Outlet />

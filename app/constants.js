@@ -47,6 +47,5 @@ export function computeQueries(addons = []) {
 		// auth
 		authClerk: addons.includes("auth-clerk"),
 		authSupabase: addons.includes("auth-supabase"),
-		authJwt: addons.includes("auth-jwt"),
 	};
 }
