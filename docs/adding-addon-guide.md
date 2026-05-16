@@ -33,17 +33,17 @@ Detailed steps
 3. EJS templates and conditionals
 
 - Always use top-level file guards; avoid placing EJS inside JSX attributes.
-    - Good: `<% if (addons.includes('auth-clerk')) { %> ... whole file ... <% } %>`
-    - Bad: `className={"<%- addons.includes('tailwind') ? '...' : '' %>"}` inside JSX expression mixing logic.
+    - Good: `<% if (queries.authClerk) { %> ... whole file ... <% } %>`
+    - Bad: `className={"<%- queries.tailwind ? '...' : '' %>"}` inside JSX expression mixing logic.
 - Guard imports at top of file to avoid unused import errors.
-- Prefer checking `addons.includes('<name>')` in templates. Optionally provide a `queries` object from the CLI to simplify checks (see step 5).
+  -- Prefer checking `queries.<nameBoolean>` in templates. Generate `queries` in the CLI with `computeQueries(addons)` and pass it into the template renderer (see step 5).
 
 4. Router differences
 
 - React Router SPA: emit `src/pages/<name>.tsx` (default export) and link via `react-router-dom` `Link`.
 - React Router Framework (file-based app): emit `app/routes/<name>.tsx` and update `app/routes.ts.ejs` to register routes.
 - TanStack Router / Start: emit `src/routes/<name>.tsx` and export `export const Route = createFileRoute('/path')({ component: Page })`.
-- Always ensure home pages conditionally show navigation only when `addons.includes('<auth-addon>')` and router addon selected.
+  -- Always ensure home pages conditionally show navigation only when the auth addon is selected (e.g. `queries.authClerk` or `queries.authSupabase`) and a router is selected (e.g. `queries.reactRouter`).
 
 5. CLI + constants
 
@@ -52,12 +52,7 @@ Detailed steps
 - When calling `processEjsTemplates(targetDir, data)`, provide a helpful `data` object: e.g.
 
 ```js
-const queries = {
-	reactRouter: addons.includes("react-router"),
-	tanstackRouter: addons.includes("tanstack-router"),
-	tanstackStart: addons.includes("tanstack-start"),
-	reactRouterFramework: addons.includes("react-router-framework"),
-};
+const queries = computeQueries(addons);
 await processEjsTemplates(targetDir, { addons, name: projectName, queries });
 ```
 

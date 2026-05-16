@@ -19,7 +19,7 @@ import {
 	installDependencies,
 } from "./scaffold.js";
 import { processEjsTemplates } from "./template.js";
-import { ADDONS, ROUTERS } from "./constants.js";
+import { ADDONS, ROUTERS, computeQueries } from "./constants.js";
 
 export async function run() {
 	intro(
@@ -173,16 +173,8 @@ export async function run() {
 		// C. Process EJS Templates
 		s.message(`Processing templates...`);
 
-		// helper booleans for templates (makes EJS guards simpler)
-		const queries = {
-			reactRouter: addons.includes("react-router"),
-			reactRouterFramework: addons.includes("react-router-framework"),
-			tanstackRouter: addons.includes("tanstack-router"),
-			tanstackStart: addons.includes("tanstack-start"),
-			shadcn: addons.includes("shadcn"),
-			tailwind: addons.includes("tailwind"),
-			tanstackQuery: addons.includes("tanstack-query"),
-		};
+		// compute `queries` booleans centrally
+		const queries = computeQueries(addons);
 
 		await processEjsTemplates(targetDir, {
 			addons,

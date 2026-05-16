@@ -8,3 +8,5 @@ app/scripts/
 .prettierrc*
 tsconfig.json
 CURRENT-STATE.md
+
+pnpm-lock.yaml

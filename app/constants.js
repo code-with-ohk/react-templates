@@ -25,30 +25,28 @@ export const ROUTERS = [
 	{ label: "TanStack Router (File-based SPA)", value: "tanstack-router" },
 ];
 
-// Canonical addon keys that map to template folder names. Use these
-// when computing boolean guards for EJS templates.
-export const CANONICAL_ADDON_KEYS = [
-	"react-router",
-	"react-router-framework",
-	"tanstack-router",
-	"tanstack-start",
-	"shadcn",
-	"tailwind",
-	"tanstack-query",
-];
-
+// NOTE: `computeQueries(addons)` provides the boolean flags used by templates.
 /**
  * Compute the boolean `queries` object used by templates.
  * Accepts an array of selected addon keys (strings).
  */
 export function computeQueries(addons = []) {
 	return {
+		tailwind: addons.includes("tailwind"),
+		shadcn: addons.includes("shadcn"),
+		// routers
 		reactRouter: addons.includes("react-router"),
 		reactRouterFramework: addons.includes("react-router-framework"),
 		tanstackRouter: addons.includes("tanstack-router"),
 		tanstackStart: addons.includes("tanstack-start"),
-		shadcn: addons.includes("shadcn"),
-		tailwind: addons.includes("tailwind"),
+		// other
 		tanstackQuery: addons.includes("tanstack-query"),
+		// forms
+		formsRHFZod: addons.includes("forms-rhf-zod"),
+		formsTanstack: addons.includes("forms-tanstack"),
+		// auth
+		authClerk: addons.includes("auth-clerk"),
+		authSupabase: addons.includes("auth-supabase"),
+		authJwt: addons.includes("auth-jwt"),
 	};
 }

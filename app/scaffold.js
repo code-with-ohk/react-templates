@@ -1,6 +1,5 @@
 import fs from "fs-extra";
 import path from "path";
-import lodashMerge from "lodash.merge";
 import { spawn } from "child_process";
 import chalk from "chalk";
 import { TEMPLATES_DIR, computeQueries } from "./constants.js";
@@ -40,16 +39,44 @@ export async function applyAddon(targetDir, addon) {
 	const targetPkgPath = path.join(targetDir, "package.json");
 	const addonPkgPath = path.join(addonDir, "package.json");
 
-	if (fs.existsSync(addonPkgPath) && fs.existsSync(targetPkgPath)) {
-		const targetPkg = await fs.readJson(targetPkgPath);
+	if (fs.existsSync(addonPkgPath)) {
 		const addonPkg = await fs.readJson(addonPkgPath);
+		let targetPkg = {};
+		if (fs.existsSync(targetPkgPath)) {
+			targetPkg = await fs.readJson(targetPkgPath);
+		}
 
-		// Merge dependencies using lodash.merge
-		const mergedPkg = lodashMerge({}, targetPkg, addonPkg);
+		// Only merge dependency maps to avoid clobbering project metadata.
+		const mergeDeps = (target = {}, addon = {}) => {
+			const out = { ...target };
+			for (const [name, ver] of Object.entries(addon)) {
+				if (!out[name]) out[name] = ver; // do not overwrite existing versions
+			}
+			return out;
+		};
 
-		await fs.writeJson(targetPkgPath, mergedPkg, {
-			spaces: "\t",
-		});
+		const mergedPkg = { ...targetPkg };
+		mergedPkg.dependencies = mergeDeps(
+			targetPkg.dependencies,
+			addonPkg.dependencies,
+		);
+		mergedPkg.devDependencies = mergeDeps(
+			targetPkg.devDependencies,
+			addonPkg.devDependencies,
+		);
+		// merge peerDependencies if present in addon
+		mergedPkg.peerDependencies = mergeDeps(
+			targetPkg.peerDependencies,
+			addonPkg.peerDependencies,
+		);
+
+		// If target had no package.json, use addon package.json as base but keep this safe-merge behavior
+		if (!fs.existsSync(targetPkgPath)) {
+			// ensure name/version from addon are not blindly copied; keep only deps
+			await fs.writeJson(targetPkgPath, mergedPkg, { spaces: "\t" });
+		} else {
+			await fs.writeJson(targetPkgPath, mergedPkg, { spaces: "\t" });
+		}
 	}
 }
 
