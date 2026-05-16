@@ -53,6 +53,17 @@ function Home() {
 				</Link>
 			</div>
 			<% } %>
+
+			<% if (addons.includes('auth-clerk')) { %>
+			<div className="<%- addons.includes('tailwind') ? 'mt-6 flex gap-4' : '' %>">
+				<Link className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>" to="/login">
+					Sign In
+				</Link>
+				<Link className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>" to="/protected">
+					Protected Area
+				</Link>
+			</div>
+			<% } %>
 		</div>
 	);
 }

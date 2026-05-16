@@ -1,0 +1,20 @@
+<% if (addons.includes('react-router-framework')) { %>
+import { SignIn } from '@clerk/react';
+
+import type { Route } from "./+types/login";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Sign In" },
+    { name: "description", content: "Sign in to your account" },
+  ];
+}
+
+export default function LoginPage() {
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-background">
+      <SignIn />
+    </div>
+  );
+}
+<% } %>

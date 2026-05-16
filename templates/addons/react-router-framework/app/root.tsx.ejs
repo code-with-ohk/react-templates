@@ -10,6 +10,9 @@ import {
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../src/lib/query-client";
 <% } %>
+<% if (addons.includes('auth-clerk') || addons.includes('auth-supabase') || addons.includes('auth-jwt')) { %>
+import { AuthProvider } from "../src/auth/provider";
+<% } %>
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -48,12 +51,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   <% if (addons.includes('tanstack-query')) { %>
   return (
+    <% if (addons.includes('auth-clerk') || addons.includes('auth-supabase') || addons.includes('auth-jwt')) { %>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <Outlet />
+      </QueryClientProvider>
+    </AuthProvider>
+    <% } else { %>
     <QueryClientProvider client={queryClient}>
       <Outlet />
     </QueryClientProvider>
+    <% } %>
+  );
+  <% } else { %>
+  <% if (addons.includes('auth-clerk') || addons.includes('auth-supabase') || addons.includes('auth-jwt')) { %>
+  return (
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
   );
   <% } else { %>
   return <Outlet />;
+  <% } %>
   <% } %>
 }
 

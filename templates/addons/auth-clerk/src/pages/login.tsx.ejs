@@ -1,0 +1,13 @@
+<% if (addons.includes('react-router')) { %>
+import { SignIn } from '@clerk/react'
+
+export default function LoginPage() {
+  return (
+    <div className="flex min-h-screen w-full items-center justify-center px-4 py-10">
+      <div className="w-full max-w-md rounded-2xl border border-border bg-background/80 p-3 shadow-sm backdrop-blur">
+        <SignIn />
+      </div>
+    </div>
+  )
+}
+<% } %>

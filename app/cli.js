@@ -116,6 +116,36 @@ export async function run() {
 		addons.push(selectedForm);
 	}
 
+	// 2.7 Select Auth provider if auth was selected
+	if (addons.includes("auth")) {
+		const selectedAuth = await select({
+			message: "Which auth provider would you like to use?",
+			options: [
+				{
+					label: "Clerk (Managed Auth, fastest)",
+					value: "auth-clerk",
+				},
+				{
+					label: "Supabase Auth (DB-friendly)",
+					value: "auth-supabase",
+				},
+				{
+					label: "JWT Custom (manual backend)",
+					value: "auth-jwt",
+				},
+			],
+		});
+
+		if (isCancel(selectedAuth)) {
+			cancel("Operation cancelled.");
+			process.exit(0);
+		}
+
+		// replace 'auth' with the actual selected auth addon
+		addons = addons.filter((a) => a !== "auth");
+		addons.push(selectedAuth);
+	}
+
 	// If Shadcn is selected but Tailwind is not, automatically add Tailwind
 	if (addons.includes("shadcn") && !addons.includes("tailwind")) {
 		addons.push("tailwind");

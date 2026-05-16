@@ -11,6 +11,7 @@ export const ADDONS = [
 	{ label: "Shadcn UI", value: "shadcn" },
 	{ label: "TanStack Query", value: "tanstack-query" },
 	{ label: "Forms", value: "forms" },
+	{ label: "Authentication", value: "auth" },
 	{ label: "Routing", value: "router" },
 ];
 

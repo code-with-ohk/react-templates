@@ -6,6 +6,9 @@ import "./index.css";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/query-client";
 <% } %>
+<% if (addons.includes('auth-clerk') || addons.includes('auth-supabase') || addons.includes('auth-jwt')) { %>
+import { AuthProvider } from "./auth/provider";
+<% } %>
 <% if (addons.includes('react-router') || !addons.includes('tanstack-router')) { %>
 import App from "./App";
 <% } %>
@@ -19,6 +22,9 @@ import { router } from "./router";
 
 createRoot(document.getElementById("root") as HTMLElement).render(
 	<StrictMode>
+		<% if (addons.includes('auth-clerk') || addons.includes('auth-supabase') || addons.includes('auth-jwt')) { %>
+		<AuthProvider>
+		<% } %>
 		<% if (addons.includes('tanstack-query')) { %>
 		<QueryClientProvider client={queryClient}>
 		<% } %>
@@ -33,6 +39,9 @@ createRoot(document.getElementById("root") as HTMLElement).render(
 		<% } %>
 		<% if (addons.includes('tanstack-query')) { %>
 		</QueryClientProvider>
+		<% } %>
+		<% if (addons.includes('auth-clerk') || addons.includes('auth-supabase') || addons.includes('auth-jwt')) { %>
+		</AuthProvider>
 		<% } %>
 	</StrictMode>
 );

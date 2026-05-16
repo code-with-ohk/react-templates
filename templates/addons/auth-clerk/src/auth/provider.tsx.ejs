@@ -1,0 +1,13 @@
+import type { ReactNode } from 'react'
+import { ClerkProvider } from '@clerk/react'
+import { AuthProviderWrapper } from './context'
+
+const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  return (
+    <ClerkProvider publishableKey={publishableKey}>
+      <AuthProviderWrapper>{children}</AuthProviderWrapper>
+    </ClerkProvider>
+  )
+}

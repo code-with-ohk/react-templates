@@ -1,0 +1,12 @@
+<% if (addons.includes('tanstack-router') || addons.includes('tanstack-start')) { %>
+import { createFileRoute } from '@tanstack/react-router'
+import { SignIn } from '@clerk/react'
+
+export const Route = createFileRoute('/login')({
+  component: LoginRoute,
+})
+
+function LoginRoute() {
+  return <SignIn />
+}
+<% } %>
