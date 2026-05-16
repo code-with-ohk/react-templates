@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-<% if (addons.includes('tanstack-query')) { %>
+<% if (queries.tanstackQuery) { %>
 import { useMutation } from '@tanstack/react-query'
 <% } %>
 import { useForm } from 'react-hook-form'
@@ -28,7 +28,7 @@ export function RHFZodDemoForm() {
     resolver: zodResolver(demoSchema),
   })
 
-  <% if (addons.includes('tanstack-query')) { %>
+  <% if (queries.tanstackQuery) { %>
   const submitMutation = useMutation({
     mutationFn: async (values: DemoValues) => {
       await wait(450)
@@ -38,7 +38,7 @@ export function RHFZodDemoForm() {
   <% } %>
 
   const onSubmit = async (values: DemoValues) => {
-    <% if (addons.includes('tanstack-query')) { %>
+    <% if (queries.tanstackQuery) { %>
     await submitMutation.mutateAsync(values)
     <% } else { %>
     await wait(450)
@@ -78,10 +78,10 @@ export function RHFZodDemoForm() {
 
         <button
           className="inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-60"
-          disabled={isSubmitting<% if (addons.includes('tanstack-query')) { %> || submitMutation.isPending<% } %>}
+          disabled={isSubmitting<% if (queries.tanstackQuery) { %> || submitMutation.isPending<% } %>}
           type="submit"
         >
-          <% if (addons.includes('tanstack-query')) { %>
+          <% if (queries.tanstackQuery) { %>
           {submitMutation.isPending ? 'Submitting...' : 'Submit'}
           <% } else { %>
           {isSubmitting ? 'Submitting...' : 'Submit'}
@@ -89,7 +89,7 @@ export function RHFZodDemoForm() {
         </button>
       </form>
 
-      <% if (addons.includes('tanstack-query')) { %>
+      <% if (queries.tanstackQuery) { %>
       {submitMutation.data ? (
         <pre className="overflow-x-auto rounded-md border border-border bg-muted p-3 text-xs">
           {JSON.stringify(submitMutation.data, null, 2)}

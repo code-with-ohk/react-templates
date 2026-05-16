@@ -1,5 +1,5 @@
-<% if (!addons.includes('react-router-framework') && !addons.includes('tanstack-router') && !addons.includes('tanstack-start')) { %>
-<% if (addons.includes('react-router')) { %>
+<% if (!queries.reactRouterFramework && !queries.tanstackRouter && !queries.tanstackStart) { %>
+<% if (queries.reactRouter) { %>
 import { Suspense } from "react";
 import { useRoutes } from "react-router-dom";
 import routes from "~react-pages";
@@ -19,11 +19,11 @@ import { RHFZodDemoForm as FormDemo } from "./forms/demo-form";
 import { TanStackFormDemo as FormDemo } from "./forms/demo-form";
 <% } %>
 
-<% if (addons.includes('shadcn')) { %>
+<% if (queries.shadcn) { %>
 import { Button } from "@/components/ui/button";
 <% } %>
 
-<% if (addons.includes('tanstack-query')) { %>
+<% if (queries.tanstackQuery) { %>
 import { useSuspenseQuery } from "@tanstack/react-query";
 <% } %>
 
@@ -32,7 +32,7 @@ import LoginOrProtectedPanel from "./auth/login-panel";
 <% } %>
 
 function Home() {
-	<% if (addons.includes('tanstack-query')) { %>
+	<% if (queries.tanstackQuery) { %>
 	const { data } = useSuspenseQuery({
 		queryKey: ["hello"],
 		queryFn: async () => {
@@ -46,28 +46,28 @@ function Home() {
 	return <LoginOrProtectedPanel />;
 	<% } else { %>
 	return (
-		<div className="<%- addons.includes('tailwind') ? 'flex h-screen w-full flex-col items-center justify-center gap-4' : '' %>">
-			<h1 className="<%- addons.includes('tailwind') ? 'text-4xl font-bold tracking-tight' : '' %>">
+		<div className="<%- queries.tailwind ? 'flex h-screen w-full flex-col items-center justify-center gap-4' : '' %>">
+			<h1 className="<%- queries.tailwind ? 'text-4xl font-bold tracking-tight' : '' %>">
 				Hello World
 			</h1>
-			<p className="<%- addons.includes('tailwind') ? 'text-muted-foreground' : '' %>">
+			<p className="<%- queries.tailwind ? 'text-muted-foreground' : '' %>">
 				Work Smart && Hard, !(Hard || Smart)
 			</p>
 
-			<% if (addons.includes('tanstack-query')) { %>
-			<div className="<%- addons.includes('tailwind') ? 'mt-6' : '' %>">
+			<% if (queries.tanstackQuery) { %>
+			<div className="<%- queries.tailwind ? 'mt-6' : '' %>">
 				<p>Query Result: {data}</p>
 			</div>
 			<% } %>
 
 			<% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack')) { %>
-			<div className="<%- addons.includes('tailwind') ? 'mt-6' : '' %>">
+			<div className="<%- queries.tailwind ? 'mt-6' : '' %>">
 				<FormDemo />
 			</div>
 			<% } %>
 
-			<% if (addons.includes('shadcn')) { %>
-			<div className="<%- addons.includes('tailwind') ? 'flex gap-2 mt-6' : '' %>">
+			<% if (queries.shadcn) { %>
+			<div className="<%- queries.tailwind ? 'flex gap-2 mt-6' : '' %>">
 				<Button>Default</Button>
 				<Button variant="secondary">Secondary</Button>
 				<Button variant="outline">Outline</Button>

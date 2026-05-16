@@ -3,7 +3,8 @@ import path from "path";
 import lodashMerge from "lodash.merge";
 import { spawn } from "child_process";
 import chalk from "chalk";
-import { TEMPLATES_DIR } from "./constants.js";
+import { TEMPLATES_DIR, computeQueries } from "./constants.js";
+import { processEjsTemplates } from "./template.js";
 
 /**
  * Copies the base template to the target directory.
@@ -69,5 +70,22 @@ export async function installDependencies(targetDir) {
 			if (code === 0) resolve();
 			else reject(new Error("npm install failed"));
 		});
+	});
+}
+
+/**
+ * Render EJS templates for a scaffolded project while passing
+ * computed `queries` booleans to templates.
+ */
+export async function renderTemplatesWithQueries(
+	targetDir,
+	addons,
+	projectName,
+) {
+	const queries = computeQueries(addons);
+	return processEjsTemplates(targetDir, {
+		addons,
+		name: projectName,
+		queries,
 	});
 }

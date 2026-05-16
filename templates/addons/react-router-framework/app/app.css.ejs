@@ -1,8 +1,8 @@
-<% if (addons.includes('tailwind') || addons.includes('shadcn')) { %>
+<% if (queries.tailwind || queries.shadcn) { %>
 @import "tailwindcss";
 <% } %>
 
-<% if (addons.includes('shadcn')) { %>
+<% if (queries.shadcn) { %>
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -130,7 +130,7 @@
 		@apply bg-background text-foreground;
 	}
 }
-<% } else if (!addons.includes('tailwind')) { %>
+<% } else if (!queries.tailwind) { %>
 :root {
 	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;

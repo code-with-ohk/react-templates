@@ -1,5 +1,5 @@
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
-<% if (addons.includes('tanstack-query')) { %>
+<% if (queries.tanstackQuery) { %>
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../lib/query-client";
 <% } %>
@@ -37,7 +37,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body>
-				<% if (addons.includes('tanstack-query')) { %>
+				<% if (queries.tanstackQuery) { %>
 				<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 				<% } else { %>
 				{children}

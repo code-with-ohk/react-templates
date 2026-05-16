@@ -1,4 +1,4 @@
-<% if (addons.includes('tanstack-query')) { %>
+<% if (queries.tanstackQuery) { %>
 import { useMutation } from '@tanstack/react-query'
 <% } %>
 import { useForm } from '@tanstack/react-form'
@@ -11,7 +11,7 @@ type DemoValues = {
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export function TanStackFormDemo() {
-<% if (addons.includes('tanstack-query')) { %>
+<% if (queries.tanstackQuery) { %>
   const submitMutation = useMutation({
     mutationFn: async (values: DemoValues) => {
       await wait(450)
@@ -20,7 +20,7 @@ export function TanStackFormDemo() {
   })
 <% } %>
 
-<% if (addons.includes('tanstack-query')) { %>
+<% if (queries.tanstackQuery) { %>
   const isSubmittingRemote = submitMutation.isPending
   const submittedData = submitMutation.data
 <% } else { %>
@@ -29,7 +29,7 @@ export function TanStackFormDemo() {
 <% } %>
 
   const onSubmit = async ({ value }: { value: DemoValues }) => {
-<% if (addons.includes('tanstack-query')) { %>
+<% if (queries.tanstackQuery) { %>
     await submitMutation.mutateAsync(value);
 <% } else { %>
     await wait(450);

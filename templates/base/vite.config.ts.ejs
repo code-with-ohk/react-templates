@@ -1,40 +1,40 @@
 import { defineConfig } from "vite";
-<% if (addons.includes('react-router-framework')) { %>
+<% if (queries.reactRouterFramework) { %>
 import { reactRouter } from "@react-router/dev/vite";
 <% } else { %>
 import react from "@vitejs/plugin-react";
 <% } %>
-<% if (addons.includes('tanstack-router')) { %>
+<% if (queries.tanstackRouter) { %>
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
-<% } else if (addons.includes('react-router')) { %>
+<% } else if (queries.reactRouter) { %>
 import Pages from "vite-plugin-pages";
 <% } %>
-<% if (addons.includes('tailwind')) { %>
+<% if (queries.tailwind) { %>
 import tailwindcss from "@tailwindcss/vite";
 <% } %>
-<% if (addons.includes('shadcn') || addons.includes('tanstack-router')) { %>
+<% if (queries.shadcn || queries.tanstackRouter) { %>
 import path from "path";
 <% } %>
 
 // https://vite.dev/config/
 export default defineConfig({
 	plugins: [
-		<% if (addons.includes('tanstack-router')) { %>
+		<% if (queries.tanstackRouter) { %>
 		tanstackRouter(),
 		<% } %>
-		<% if (addons.includes('react-router-framework')) { %>
+		<% if (queries.reactRouterFramework) { %>
 		reactRouter(),
 		<% } else { %>
 		react(),
 		<% } %>
-		<% if (!addons.includes('tanstack-router') && addons.includes('react-router')) { %>
+		<% if (!queries.tanstackRouter && queries.reactRouter) { %>
 		Pages(),
 		<% } %>
-		<% if (addons.includes('tailwind')) { %>
+		<% if (queries.tailwind) { %>
 		tailwindcss(),
 		<% } %>
 	],
-<% if (addons.includes('shadcn') || addons.includes('tanstack-router')) { %>
+<% if (queries.shadcn || queries.tanstackRouter) { %>
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "./src"),

@@ -1,10 +1,10 @@
 {
 	"projectName": "<%= name %>",
-	"mode": "<%- addons.includes('tanstack-router') || addons.includes('react-router-framework') || addons.includes('react-router') ? 'file-router' : 'spa' %>",
+	"mode": "<%- queries.tanstackRouter || queries.reactRouterFramework || queries.reactRouter ? 'file-router' : 'spa' %>",
 	"typescript": true,
 	"packageManager": "npm",
 	"includeExamples": true,
-	"tailwind": <%- addons.includes('tailwind') %>,
+	"tailwind": <%- queries.tailwind %>,
 	"addOnOptions": {},
 	"envVarValues": {},
 	"git": false,

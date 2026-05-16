@@ -1,8 +1,8 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-<% if (addons.includes('shadcn')) { %>
+<% if (queries.shadcn) { %>
 import { Button } from "@/components/ui/button";
 <% } %>
-<% if (addons.includes('tanstack-query')) { %>
+<% if (queries.tanstackQuery) { %>
 import { useSuspenseQuery } from "@tanstack/react-query";
 <% } %>
 
@@ -11,7 +11,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-	<% if (addons.includes('tanstack-query')) { %>
+	<% if (queries.tanstackQuery) { %>
 	const { data } = useSuspenseQuery({
 		queryKey: ["hello"],
 		queryFn: async () => {
@@ -22,22 +22,22 @@ function Home() {
 	<% } %>
 
 	return (
-		<div className="<%- addons.includes('tailwind') ? 'flex flex-col items-center justify-center gap-4 py-8' : '' %>">
-			<h1 className="<%- addons.includes('tailwind') ? 'text-4xl font-bold tracking-tight' : '' %>">
+		<div className="<%- queries.tailwind ? 'flex flex-col items-center justify-center gap-4 py-8' : '' %>">
+			<h1 className="<%- queries.tailwind ? 'text-4xl font-bold tracking-tight' : '' %>">
 				Hello World
 			</h1>
-			<p className="<%- addons.includes('tailwind') ? 'text-muted-foreground' : '' %>">
+			<p className="<%- queries.tailwind ? 'text-muted-foreground' : '' %>">
 				Work Smart && Hard, !(Hard || Smart)
 			</p>
 
-			<% if (addons.includes('tanstack-query')) { %>
-			<div className="<%- addons.includes('tailwind') ? 'mt-6' : '' %>">
+			<% if (queries.tanstackQuery) { %>
+			<div className="<%- queries.tailwind ? 'mt-6' : '' %>">
 				<p>Query Result: {data}</p>
 			</div>
 			<% } %>
 
-			<% if (addons.includes('shadcn')) { %>
-			<div className="<%- addons.includes('tailwind') ? 'flex gap-2 mt-6' : '' %>">
+			<% if (queries.shadcn) { %>
+			<div className="<%- queries.tailwind ? 'flex gap-2 mt-6' : '' %>">
 				<Button>Default</Button>
 				<Button variant="secondary">Secondary</Button>
 				<Button variant="outline">Outline</Button>
@@ -47,19 +47,19 @@ function Home() {
 			<% } %>
 
 			<% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack')) { %>
-			<div className="<%- addons.includes('tailwind') ? 'mt-6' : '' %>">
-				<Link className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>" to="/forms-demo">
+			<div className="<%- queries.tailwind ? 'mt-6' : '' %>">
+				<Link className="<%- queries.tailwind ? 'text-blue-500 hover:underline' : '' %>" to="/forms-demo">
 					Go to Forms Demo
 				</Link>
 			</div>
 			<% } %>
 
 			<% if (addons.includes('auth-clerk')) { %>
-			<div className="<%- addons.includes('tailwind') ? 'mt-6 flex gap-4' : '' %>">
-				<Link className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>" to="/login">
+			<div className="<%- queries.tailwind ? 'mt-6 flex gap-4' : '' %>">
+				<Link className="<%- queries.tailwind ? 'text-blue-500 hover:underline' : '' %>" to="/login">
 					Sign In
 				</Link>
-				<Link className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline' : '' %>" to="/protected">
+				<Link className="<%- queries.tailwind ? 'text-blue-500 hover:underline' : '' %>" to="/protected">
 					Protected Area
 				</Link>
 			</div>

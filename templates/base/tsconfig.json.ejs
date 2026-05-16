@@ -5,15 +5,15 @@
 		"jsx": "react-jsx",
 		"module": "ESNext",
 		"paths": {
-			<% if (addons.includes('tanstack-start')) { %>"#/*": ["./src/*"],
-			"@/*": ["./src/*"]<% } else { %>"#/*": ["./src/*"]<% if (addons.includes('shadcn') || addons.includes('tanstack-router')) { %>,
+			<% if (queries.tanstackStart) { %>"#/*": ["./src/*"],
+			"@/*": ["./src/*"]<% } else { %>"#/*": ["./src/*"]<% if (queries.shadcn || queries.tanstackRouter) { %>,
 			"@/*": ["./src/*"]
 			<% } %><% } %>
 		},
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"types": [
 			"vite/client", 
-			"node"<% if (addons.includes('react-router')) { %>,
+			"node"<% if (queries.reactRouter) { %>,
 			"vite-plugin-pages/client"
 			<% } %>
 		],

@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 
 export default function About() {
 	return (
-		<div className="<%- addons.includes('tailwind') ? 'flex flex-col items-center justify-center gap-4 py-8' : '' %>">
-			<h1 className="<%- addons.includes('tailwind') ? 'text-4xl font-bold tracking-tight' : '' %>">
+		<div className="<%- queries.tailwind ? 'flex flex-col items-center justify-center gap-4 py-8' : '' %>">
+			<h1 className="<%- queries.tailwind ? 'text-4xl font-bold tracking-tight' : '' %>">
 				About Page
 			</h1>
-			<p className="<%- addons.includes('tailwind') ? 'text-muted-foreground' : '' %>">
+			<p className="<%- queries.tailwind ? 'text-muted-foreground' : '' %>">
 				This is the about page.
 			</p>
-			<Link to="/" className="<%- addons.includes('tailwind') ? 'text-blue-500 hover:underline mt-4' : '' %>">
+			<Link to="/" className="<%- queries.tailwind ? 'text-blue-500 hover:underline mt-4' : '' %>">
 				Go back Home
 			</Link>
 		</div>

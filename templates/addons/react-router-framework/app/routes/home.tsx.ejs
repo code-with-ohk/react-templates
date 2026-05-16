@@ -1,4 +1,4 @@
-<% if (addons.includes('shadcn')) { %>
+<% if (queries.shadcn) { %>
 import { Button } from "@/components/ui/button";
 <% } %>
 <% if (addons.includes('forms-rhf-zod') || addons.includes('forms-tanstack') || addons.includes('auth-clerk')) { %>
@@ -16,15 +16,15 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <div className="<%- addons.includes('tailwind') ? 'flex flex-col items-center justify-center gap-4 py-8' : '' %>">
-      <h1 className="<%- addons.includes('tailwind') ? 'text-4xl font-bold tracking-tight' : '' %>">
+    <div className="<%- queries.tailwind ? 'flex flex-col items-center justify-center gap-4 py-8' : '' %>">
+      <h1 className="<%- queries.tailwind ? 'text-4xl font-bold tracking-tight' : '' %>">
         Hello World
       </h1>
-      <p className="<%- addons.includes('tailwind') ? 'text-muted-foreground' : '' %>">
+      <p className="<%- queries.tailwind ? 'text-muted-foreground' : '' %>">
         Official React Router V7 Framework
       </p>
 
-      <% if (addons.includes('shadcn')) { %>
+      <% if (queries.shadcn) { %>
       <div className="flex gap-2">
         <Button>Default</Button>
         <Button variant="secondary">Secondary</Button>
@@ -41,7 +41,7 @@ export default function Home() {
       <% } %>
 
       <% if (addons.includes('auth-clerk')) { %>
-      <div className="<%- addons.includes('tailwind') ? 'mt-6 flex gap-4' : '' %>">
+      <div className="<%- queries.tailwind ? 'mt-6 flex gap-4' : '' %>">
         <Link className="text-blue-600 hover:underline" to="/login">
           Sign In
         </Link>

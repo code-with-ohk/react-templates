@@ -1,15 +1,15 @@
 	import { createFileRoute, Link } from "@tanstack/react-router";
-	<% if (addons.includes('shadcn')) { %>
+	<% if (queries.shadcn) { %>
 	import { Button } from "@/components/ui/button";
 	<% } %>
-	<% if (addons.includes('tanstack-query')) { %>
+	<% if (queries.tanstackQuery) { %>
 	import { useSuspenseQuery } from "@tanstack/react-query";
 	<% } %>
 
 	export const Route = createFileRoute("/")({ component: Home });
 
 	function Home() {
-		<% if (addons.includes('tanstack-query')) { %>
+		<% if (queries.tanstackQuery) { %>
 		const { data } = useSuspenseQuery({
 			queryKey: ["hello"],
 			queryFn: async () => {
@@ -20,22 +20,22 @@
 		<% } %>
 
 		return (
-			<div className="<%- addons.includes('tailwind') || addons.includes('shadcn') ? 'p-8' : '' %>">
-				<h1 className="<%- addons.includes('tailwind') || addons.includes('shadcn') ? 'text-4xl font-bold tracking-tight' : '' %>">
+			<div className="<%- queries.tailwind || queries.shadcn ? 'p-8' : '' %>">
+				<h1 className="<%- queries.tailwind || queries.shadcn ? 'text-4xl font-bold tracking-tight' : '' %>">
 					Welcome to TanStack Start
 				</h1>
-				<p className="<%- addons.includes('tailwind') || addons.includes('shadcn') ? 'mt-4 text-lg' : '' %>">
+				<p className="<%- queries.tailwind || queries.shadcn ? 'mt-4 text-lg' : '' %>">
 					Edit <code>src/routes/index.tsx</code> to get started.
 				</p>
 
-				<% if (addons.includes('tanstack-query')) { %>
-				<div className="<%- addons.includes('tailwind') || addons.includes('shadcn') ? 'mt-6' : '' %>">
+				<% if (queries.tanstackQuery) { %>
+				<div className="<%- queries.tailwind || queries.shadcn ? 'mt-6' : '' %>">
 					<p>Query Result: {data}</p>
 				</div>
 				<% } %>
 
-				<% if (addons.includes('shadcn')) { %>
-				<div className="<%- addons.includes('tailwind') ? 'flex gap-2 mt-6' : '' %>">
+				<% if (queries.shadcn) { %>
+				<div className="<%- queries.tailwind ? 'flex gap-2 mt-6' : '' %>">
 					<Button>Default</Button>
 					<Button variant="secondary">Secondary</Button>
 					<Button variant="outline">Outline</Button>

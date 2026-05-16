@@ -1,22 +1,22 @@
 import { defineConfig } from "vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-<% if (addons.includes('tailwind') || addons.includes('shadcn')) { %>
+<% if (queries.tailwind || queries.shadcn) { %>
 import tailwindcss from "@tailwindcss/vite";
 <% } %>
-<% if (addons.includes('shadcn') || addons.includes('tanstack-query')) { %>
+<% if (queries.shadcn || queries.tanstackQuery) { %>
 import path from "path";
 <% } %>
 
 export default defineConfig({
 	plugins: [
-		<% if (addons.includes('tailwind') || addons.includes('shadcn')) { %>
+		<% if (queries.tailwind || queries.shadcn) { %>
 		tailwindcss(),
 		<% } %>
 		tanstackStart(),
 		viteReact(),
 	],
-	<% if (addons.includes('shadcn') || addons.includes('tanstack-query')) { %>
+	<% if (queries.shadcn || queries.tanstackQuery) { %>
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "./src"),
