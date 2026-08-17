@@ -69,6 +69,8 @@ export async function applyAddon(targetDir, addon) {
 			targetPkg.peerDependencies,
 			addonPkg.peerDependencies,
 		);
+		// merge scripts (add only keys that don't exist; never clobber base scripts)
+		mergedPkg.scripts = mergeDeps(targetPkg.scripts, addonPkg.scripts);
 
 		// If target had no package.json, use addon package.json as base but keep this safe-merge behavior
 		if (!fs.existsSync(targetPkgPath)) {

@@ -96,12 +96,14 @@ export async function run() {
 			message: "Which forms stack would you like?",
 			options: [
 				{
-					label: "React Hook Form + Zod (type-safe)",
+					label: "React Hook Form + Zod",
 					value: "forms-rhf-zod",
+					hint: "Lightweight, performant forms + schema validation",
 				},
 				{
-					label: "TanStack Form (TypeScript-first)",
+					label: "TanStack Form",
 					value: "forms-tanstack",
+					hint: "Headless forms, TanStack family, type-safe",
 				},
 			],
 		});
@@ -122,12 +124,14 @@ export async function run() {
 			message: "Which auth provider would you like to use?",
 			options: [
 				{
-					label: "Clerk (Managed Auth, fastest)",
+					label: "Clerk",
 					value: "auth-clerk",
+					hint: "Managed auth: email/password, OAuth, SSO, prebuilt UI",
 				},
 				{
-					label: "Supabase Auth (DB-friendly)",
+					label: "Supabase Auth",
 					value: "auth-supabase",
+					hint: "OAuth (Google/GitHub), links to Postgres",
 				},
 			],
 		});
