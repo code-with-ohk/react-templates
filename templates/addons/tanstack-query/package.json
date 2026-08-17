@@ -1,5 +1,5 @@
 {
-	"dependencies": {
-		"@tanstack/react-query": "^5.100.10"
-	}
+  "dependencies": {
+    "@tanstack/react-query": "^5.101.4"
+  }
 }

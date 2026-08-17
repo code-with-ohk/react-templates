@@ -88,8 +88,13 @@ This makes template guards clearer when you need a single boolean across templat
 - Ensure tests or basic `get_errors` pass.
 - Add a short `local-testing-guide.md` entry for how to generate a test project.
 
-Notes / Best Practices
+Boundary Rules / Do Not Touch
 
+- `app/constants.js` is the single source of truth for addon/router lists and `queries` flags. Register new addons here before wiring CLI/scaffold.
+- `templates/base/package.json` is the dependency baseline — bump via `app/scripts/sync-template-deps.js`, never by hand.
+- Root `package.json` version/name/bin/publishConfig change only through the release flow.
+- Addon `package.json` files are merged with non-overwrite semantics (existing target versions win) — never commit a copied `package.json` that clobbers base deps.
+- `.github/workflows/release.yml` is the publish pipeline; changes require explicit user instruction.
 - Keep EJS logic at file level; treat templates as composition rather than branching JSX inside components.
 - Avoid emitting both `pages/` and `routes/` for the same router family — guard files carefully.
 - Prefer small, focused addons: if a feature touches many subsystems, split into helper addons (e.g., `auth-core` + `auth-clerk`).

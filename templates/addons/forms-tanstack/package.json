@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@tanstack/react-form": "^1.32.0"
+    "@tanstack/react-form": "^1.33.5"
   }
 }
