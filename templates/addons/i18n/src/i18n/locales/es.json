@@ -1,0 +1,8 @@
+{
+	"home": {
+		"welcome": "Hola Mundo",
+		"tagline": "Trabaja Inteligente && Duro, !(Duro || Inteligente)",
+		"frameworkTagline": "Framework oficial de React Router",
+		"welcomeStart": "Bienvenido a TanStack Start"
+	}
+}

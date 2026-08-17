@@ -5,10 +5,17 @@ import { Button } from "@/components/ui/button";
 <% if (queries.tanstackQuery) { %>
 import { useSuspenseQuery } from "@tanstack/react-query";
 <% } %>
+<% if (queries.i18n) { %>
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
+<% } %>
 
 export const Route = createFileRoute("/")({ component: Home });
 
 function Home() {
+	<% if (queries.i18n) { %>
+	const { t } = useTranslation();
+	<% } %>
 	<% if (queries.tanstackQuery) { %>
 	const { data } = useSuspenseQuery({
 		queryKey: ["hello"],
@@ -21,8 +28,11 @@ function Home() {
 
 	return (
 		<div className="<%- queries.tailwind || queries.shadcn ? 'p-8' : '' %>">
+			<% if (queries.i18n) { %>
+			<LanguageSwitcher />
+			<% } %>
 			<h1 className="<%- queries.tailwind || queries.shadcn ? 'text-4xl font-bold tracking-tight' : '' %>">
-				Welcome to TanStack Start
+				<% if (queries.i18n) { %>{t("home.welcomeStart")}<% } else { %>Welcome to TanStack Start<% } %>
 			</h1>
 			<p className="<%- queries.tailwind || queries.shadcn ? 'mt-4 text-lg' : '' %>">
 				Edit <code>src/routes/index.tsx</code> to get started.

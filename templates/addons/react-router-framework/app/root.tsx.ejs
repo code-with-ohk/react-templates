@@ -7,6 +7,9 @@ import {
   ScrollRestoration,
   type LinksFunction,
 } from "react-router";
+<% if (queries.i18n) { %>
+import "../src/i18n";
+<% } %>
 <% if (queries.tanstackQuery) { %>
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../src/lib/query-client";

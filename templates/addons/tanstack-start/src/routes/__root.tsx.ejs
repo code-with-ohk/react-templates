@@ -1,4 +1,7 @@
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
+<% if (queries.i18n) { %>
+import "../i18n";
+<% } %>
 <% if (queries.tanstackQuery) { %>
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../lib/query-client";

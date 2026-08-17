@@ -5,12 +5,19 @@ import { Button } from "@/components/ui/button";
 <% if (queries.tanstackQuery) { %>
 import { useSuspenseQuery } from "@tanstack/react-query";
 <% } %>
+<% if (queries.i18n) { %>
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
+<% } %>
 
 export const Route = createFileRoute("/")({
 	component: Home,
 });
 
 function Home() {
+	<% if (queries.i18n) { %>
+	const { t } = useTranslation();
+	<% } %>
 	<% if (queries.tanstackQuery) { %>
 	const { data } = useSuspenseQuery({
 		queryKey: ["hello"],
@@ -23,11 +30,14 @@ function Home() {
 
 	return (
 		<div className="<%- queries.tailwind ? 'flex flex-col items-center justify-center gap-4 py-8' : '' %>">
+			<% if (queries.i18n) { %>
+			<LanguageSwitcher />
+			<% } %>
 			<h1 className="<%- queries.tailwind ? 'text-4xl font-bold tracking-tight' : '' %>">
-				Hello World
+				<% if (queries.i18n) { %>{t("home.welcome")}<% } else { %>Hello World<% } %>
 			</h1>
 			<p className="<%- queries.tailwind ? 'text-muted-foreground' : '' %>">
-				Work Smart && Hard, !(Hard || Smart)
+				<% if (queries.i18n) { %>{t("home.tagline")}<% } else { %>Work Smart && Hard, !(Hard || Smart)<% } %>
 			</p>
 
 			<% if (queries.tanstackQuery) { %>

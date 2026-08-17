@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button";
 <% if (queries.formsRHFZod || queries.formsTanstack || queries.authClerk || queries.authSupabase) { %>
 import { Link } from "react-router";
 <% } %>
+<% if (queries.i18n) { %>
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "../../src/components/LanguageSwitcher";
+<% } %>
 
 import type { Route } from "./+types/home";
 
@@ -15,13 +19,19 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  <% if (queries.i18n) { %>
+  const { t } = useTranslation();
+  <% } %>
   return (
     <div className="<%- queries.tailwind ? 'flex flex-col items-center justify-center gap-4 py-8' : '' %>">
+      <% if (queries.i18n) { %>
+      <LanguageSwitcher />
+      <% } %>
       <h1 className="<%- queries.tailwind ? 'text-4xl font-bold tracking-tight' : '' %>">
-        Hello World
+        <% if (queries.i18n) { %>{t("home.welcome")}<% } else { %>Hello World<% } %>
       </h1>
       <p className="<%- queries.tailwind ? 'text-muted-foreground' : '' %>">
-        Official React Router V7 Framework
+        <% if (queries.i18n) { %>{t("home.frameworkTagline")}<% } else { %>Official React Router V7 Framework<% } %>
       </p>
 
       <% if (queries.shadcn) { %>

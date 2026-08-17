@@ -34,6 +34,11 @@ export const ADDONS = [
 	},
 	{ label: "Authentication", value: "auth", hint: "Clerk or Supabase" },
 	{
+		label: "i18n (Internationalization)",
+		value: "i18n",
+		hint: "Multi-language UI (English/Spanish demo)",
+	},
+	{
 		label: "Code Quality (Prettier + Lint-Staged + Husky)",
 		value: "code-quality",
 		hint: "Auto-format + lint on every git commit",
@@ -85,5 +90,7 @@ export function computeQueries(addons = []) {
 		// auth
 		authClerk: addons.includes("auth-clerk"),
 		authSupabase: addons.includes("auth-supabase"),
+		// i18n
+		i18n: addons.includes("i18n"),
 	};
 }
