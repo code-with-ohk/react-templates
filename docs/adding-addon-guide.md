@@ -61,7 +61,8 @@ This makes template guards clearer when you need a single boolean across templat
 6. Scaffold behavior
 
 - `app/scaffold.js` must copy the addon folder into the generated project. Keep file copy semantics simple (fs-extra copy).
-- Merge `package.json` dependencies with `lodash.merge` or a small merge routine; prefer only adding `dependencies` and `devDependencies` keys.
+- Merge `package.json` via the scaffold safe-merge routine: `dependencies`, `devDependencies`, `peerDependencies`, and `scripts` are added non-overwrite (existing target versions/keys win).
+- Addons that need npm scripts (e.g. `code-quality` ships `format`, `prepare`, husky) rely on the scripts merge — never hand-copy a `package.json` into the target.
 - If addon requires additional setup steps (postinstall, script changes), document them in the addon `README.md` and optionally prompt the user in the CLI to run installers.
 
 7. Base template integration

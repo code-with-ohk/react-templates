@@ -25,7 +25,8 @@ templates/
   base/              Vite + React 19 + TS foundation (EJS conditionals)
   addons/            Optional overlays: tailwind, shadcn, tanstack-query,
                      react-router, react-router-framework, tanstack-router, tanstack-start,
-                     forms-rhf-zod, forms-tanstack, auth-clerk, auth-supabase
+                     forms-rhf-zod, forms-tanstack, auth-clerk, auth-supabase,
+                     i18n, code-quality
 
 docs/                Human guides (adding-addon-guide, local-testing-guide, npm-publish-guide)
 local/               Local scratch/test projects + release notes. NOT published.
@@ -46,7 +47,7 @@ local/               Local scratch/test projects + release notes. NOT published.
     - React Router Framework → `app/routes/*.tsx` + registration in `app/routes.ts.ejs`
     - TanStack Router / Start → `src/routes/*.tsx` with `createFileRoute`
     - Shared helpers → `src/auth/`, `src/lib/`, `src/components/`
-- `package.json` is never copied blindly from an addon. Dependencies/devDependencies/peerDependencies are merged via safe-merge (existing versions win).
+- `package.json` is never copied blindly from an addon. Dependencies/devDependencies/peerDependencies and scripts are merged via safe-merge (existing versions win).
 - `.ejs` files may render to empty string; the renderer deletes them and prunes leftover empty dirs.
 
 ## Invariable Rules
@@ -60,6 +61,7 @@ local/               Local scratch/test projects + release notes. NOT published.
     - Routers: react-router, react-router-framework, tanstack-router, tanstack-start
     - Forms: forms-rhf-zod, forms-tanstack
     - Auth: auth-clerk, auth-supabase (no JWT option)
+    - Other: i18n, code-quality
 - Every addon must work in isolation and combined with others; test with and without tailwind/shadcn/query and across router families.
 
 ## Boundary Rules / Do Not Touch
