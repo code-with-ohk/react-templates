@@ -15,7 +15,7 @@ export default App;
 <% } else { %>
 <% if (queries.formsRHFZod) { %>
 import { RHFZodDemoForm as FormDemo } from "./forms/demo-form";
-<% } else if (queries.formsTanStack) { %>
+<% } else if (queries.formsTanstack) { %>
 import { TanStackFormDemo as FormDemo } from "./forms/demo-form";
 <% } %>
 
@@ -60,7 +60,7 @@ function Home() {
 			</div>
 			<% } %>
 
-			<% if (queries.formsRHFZod || queries.formsTanStack) { %>
+			<% if (queries.formsRHFZod || queries.formsTanstack) { %>
 			<div className="<%- queries.tailwind ? 'mt-6' : '' %>">
 				<FormDemo />
 			</div>

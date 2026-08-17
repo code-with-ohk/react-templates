@@ -1,4 +1,5 @@
 <% if (queries.tanstackRouter || queries.tanstackStart) { %>
+import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { supabase } from '../lib/supabase'
 

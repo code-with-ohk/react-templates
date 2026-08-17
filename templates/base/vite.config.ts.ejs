@@ -37,7 +37,7 @@ export default defineConfig({
 <% if (queries.shadcn || queries.tanstackRouter) { %>
 	resolve: {
 		alias: {
-			"@": path.resolve(__dirname, "./src"),
+			"@": path.resolve(import.meta.dirname, "./src"),
 		},
 	},
 	<% } %>

@@ -7,6 +7,11 @@ export const Route = createFileRoute('/protected')({ component: ProtectedRoute }
 
 function ProtectedRoute() {
   const { signOut, session } = useAuth() as any
+
+  function handleSignOut() {
+    void signOut()
+  }
+
   return (
     <RequireAuth>
       <div className="flex min-h-screen w-full flex-col items-center justify-center px-4 py-10">
@@ -22,7 +27,7 @@ function ProtectedRoute() {
           </div>
           <div className="flex gap-2">
             <Link to="/" className="flex-1 h-10 rounded-md border border-border bg-background text-foreground font-medium hover:bg-secondary flex items-center justify-center">Back Home</Link>
-            <button onClick={() => signOut()} className="flex-1 h-10 rounded-md bg-destructive text-destructive-foreground font-medium hover:bg-destructive/90">Sign Out</button>
+            <button onClick={handleSignOut} className="flex-1 h-10 rounded-md bg-destructive text-destructive-foreground font-medium hover:bg-destructive/90">Sign Out</button>
           </div>
         </div>
       </div>

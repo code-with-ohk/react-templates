@@ -1,9 +1,16 @@
-<% if (queries.reactRouterFramework && queries.authSupabase) { %>
+<%# This routes.ts mirrors templates/addons/react-router-framework/app/routes.ts.ejs so that
+    addon copy order never clobbers the composed route map. Keep in sync with that file. %>
+<% if (queries.reactRouterFramework) { %>
 import { type RouteConfig, index, route } from "@react-router/dev/routes";
 
 export default [
-  index("routes/home.tsx"),
-  route("login", "routes/login.tsx"),
-  route("protected", "routes/protected.tsx"),
+	index("routes/home.tsx"),
+	<% if (queries.authClerk || queries.authSupabase) { %>
+	route("login", "routes/login.tsx"),
+	route("protected", "routes/protected.tsx"),
+	<% } %>
+	<% if (queries.formsRHFZod || queries.formsTanstack) { %>
+	route("forms-demo", "routes/forms-demo.tsx"),
+	<% } %>
 ] satisfies RouteConfig;
 <% } %>

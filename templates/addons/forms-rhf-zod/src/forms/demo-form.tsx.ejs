@@ -46,6 +46,14 @@ export function RHFZodDemoForm() {
     reset(values)
   }
 
+  <% if (queries.tanstackQuery) { %>
+  const isSubmittingFinal = isSubmitting || submitMutation.isPending
+  const submitLabel = submitMutation.isPending ? 'Submitting...' : 'Submit'
+  <% } else { %>
+  const isSubmittingFinal = isSubmitting
+  const submitLabel = isSubmitting ? 'Submitting...' : 'Submit'
+  <% } %>
+
   return (
     <section className="mx-auto w-full max-w-xl space-y-6 py-8">
       <header className="space-y-2">
@@ -78,14 +86,10 @@ export function RHFZodDemoForm() {
 
         <button
           className="inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-60"
-          disabled={isSubmitting<% if (queries.tanstackQuery) { %> || submitMutation.isPending<% } %>}
+          disabled={isSubmittingFinal}
           type="submit"
         >
-          <% if (queries.tanstackQuery) { %>
-          {submitMutation.isPending ? 'Submitting...' : 'Submit'}
-          <% } else { %>
-          {isSubmitting ? 'Submitting...' : 'Submit'}
-          <% } %>
+          {submitLabel}
         </button>
       </form>
 

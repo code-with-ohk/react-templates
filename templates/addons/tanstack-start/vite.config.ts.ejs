@@ -4,9 +4,7 @@ import viteReact from "@vitejs/plugin-react";
 <% if (queries.tailwind || queries.shadcn) { %>
 import tailwindcss from "@tailwindcss/vite";
 <% } %>
-<% if (queries.shadcn || queries.tanstackQuery) { %>
 import path from "path";
-<% } %>
 
 export default defineConfig({
 	plugins: [
@@ -16,11 +14,9 @@ export default defineConfig({
 		tanstackStart(),
 		viteReact(),
 	],
-	<% if (queries.shadcn || queries.tanstackQuery) { %>
 	resolve: {
 		alias: {
-			"@": path.resolve(__dirname, "./src"),
+			"@": path.resolve(import.meta.dirname, "./src"),
 		},
 	},
-	<% } %>
 });

@@ -1,70 +1,73 @@
-	import { createFileRoute, Link } from "@tanstack/react-router";
-	<% if (queries.shadcn) { %>
-	import { Button } from "@/components/ui/button";
-	<% } %>
+import { createFileRoute, Link } from "@tanstack/react-router";
+<% if (queries.shadcn) { %>
+import { Button } from "@/components/ui/button";
+<% } %>
+<% if (queries.tanstackQuery) { %>
+import { useSuspenseQuery } from "@tanstack/react-query";
+<% } %>
+
+export const Route = createFileRoute("/")({ component: Home });
+
+function Home() {
 	<% if (queries.tanstackQuery) { %>
-	import { useSuspenseQuery } from "@tanstack/react-query";
+	const { data } = useSuspenseQuery({
+		queryKey: ["hello"],
+		queryFn: async () => {
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+			return "TanStack Query is working!";
+		},
+	});
 	<% } %>
 
-	export const Route = createFileRoute("/")({ component: Home });
+	return (
+		<div className="<%- queries.tailwind || queries.shadcn ? 'p-8' : '' %>">
+			<h1 className="<%- queries.tailwind || queries.shadcn ? 'text-4xl font-bold tracking-tight' : '' %>">
+				Welcome to TanStack Start
+			</h1>
+			<p className="<%- queries.tailwind || queries.shadcn ? 'mt-4 text-lg' : '' %>">
+				Edit <code>src/routes/index.tsx</code> to get started.
+			</p>
 
-	function Home() {
-		<% if (queries.tanstackQuery) { %>
-		const { data } = useSuspenseQuery({
-			queryKey: ["hello"],
-			queryFn: async () => {
-				await new Promise((resolve) => setTimeout(resolve, 1000));
-				return "TanStack Query is working!";
-			},
-		});
-		<% } %>
-
-		return (
-			<div className="<%- queries.tailwind || queries.shadcn ? 'p-8' : '' %>">
-				<h1 className="<%- queries.tailwind || queries.shadcn ? 'text-4xl font-bold tracking-tight' : '' %>">
-					Welcome to TanStack Start
-				</h1>
-				<p className="<%- queries.tailwind || queries.shadcn ? 'mt-4 text-lg' : '' %>">
-					Edit <code>src/routes/index.tsx</code> to get started.
-				</p>
-
-				<% if (queries.tanstackQuery) { %>
-				<div className="<%- queries.tailwind || queries.shadcn ? 'mt-6' : '' %>">
-					<p>Query Result: {data}</p>
-				</div>
-				<% } %>
-
-				<% if (queries.shadcn) { %>
-				<div className="<%- queries.tailwind ? 'flex gap-2 mt-6' : '' %>">
-					<Button>Default</Button>
-					<Button variant="secondary">Secondary</Button>
-					<Button variant="outline">Outline</Button>
-					<Button variant="ghost">Ghost</Button>
-					<Button variant="destructive">Destructive</Button>
-				</div>
-				<% } %>
-					<div className="mt-6">
-						<Link to="/about" className="text-blue-500 hover:underline">
-							About
-						</Link>
-					</div>
-					<% if (queries.formsRHFZod || queries.formsTanStack) { %>
-					<div className="mt-2">
-						<Link to="/forms-demo" className="text-blue-500 hover:underline">
-							Forms Demo
-						</Link>
-					</div>
-					<% } %>
-					<% if (queries.authClerk || queries.authSupabase) { %>
-					<div className="mt-4 flex gap-4">
-						<Link to="/login" className="text-blue-500 hover:underline">
-							Sign In
-						</Link>
-						<Link to="/protected" className="text-blue-500 hover:underline">
-							Protected Area
-						</Link>
-					</div>
-					<% } %>
+			<% if (queries.tanstackQuery) { %>
+			<div className="<%- queries.tailwind || queries.shadcn ? 'mt-6' : '' %>">
+				<p>Query Result: {data}</p>
 			</div>
-		);
-	}
+			<% } %>
+
+			<% if (queries.shadcn) { %>
+			<div className="<%- queries.tailwind ? 'flex gap-2 mt-6' : '' %>">
+				<Button>Default</Button>
+				<Button variant="secondary">Secondary</Button>
+				<Button variant="outline">Outline</Button>
+				<Button variant="ghost">Ghost</Button>
+				<Button variant="destructive">Destructive</Button>
+			</div>
+			<% } %>
+
+			<div className="mt-6">
+				<Link to="/about" className="text-blue-500 hover:underline">
+					About
+				</Link>
+			</div>
+
+			<% if (queries.formsRHFZod || queries.formsTanstack) { %>
+			<div className="mt-2">
+				<Link to="/forms-demo" className="text-blue-500 hover:underline">
+					Forms Demo
+				</Link>
+			</div>
+			<% } %>
+
+			<% if (queries.authClerk || queries.authSupabase) { %>
+			<div className="mt-4 flex gap-4">
+				<Link to="/login" className="text-blue-500 hover:underline">
+					Sign In
+				</Link>
+				<Link to="/protected" className="text-blue-500 hover:underline">
+					Protected Area
+				</Link>
+			</div>
+			<% } %>
+		</div>
+	);
+}
